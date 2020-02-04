@@ -12,3 +12,18 @@ Android and/or iOS.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
+
+
+Share text in your social media.
+
+  - Line
+  - Twitter (coming)
+  - Instagram (coming)
+
+### Example
+
+Share in Line.
+
+```dart
+ await ShareSocialMediaPlugin.shareLine("My share text");
+```

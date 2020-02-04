@@ -22,8 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 Share text in your social media.
 
   - Line
-  - Twitter (comming)
-  - Instagram (comming)
+  - Twitter (coming)
+  - Instagram (coming)
 
 ### Example
 
