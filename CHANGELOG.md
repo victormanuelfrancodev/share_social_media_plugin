@@ -7,3 +7,7 @@
 
 * Fix some license
 *Share text for your contacts in line
+
+## 1.0.1
+
+* Readme
