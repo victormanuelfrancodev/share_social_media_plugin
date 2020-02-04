@@ -2,7 +2,7 @@ name: share_social_media_plugin
 description: Share social media plugin 
 version: 0.0.1
 author: victormanuelfrancodev@gmail.com
-homepage:
+homepage: 
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
