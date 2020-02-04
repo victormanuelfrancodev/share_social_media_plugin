@@ -50,13 +50,10 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: <Widget>[
             RaisedButton(
-              onPressed: () async{
+              onPressed: () async {
                 await ShareSocialMediaPlugin.shareLine("http://www.google.com");
               },
-              child: Text(
-                  'Line',
-                  style: TextStyle(fontSize: 20)
-              ),
+              child: Text('Line', style: TextStyle(fontSize: 20)),
             )
           ],
         ),

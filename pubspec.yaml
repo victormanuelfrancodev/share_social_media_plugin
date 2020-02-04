@@ -1,8 +1,7 @@
 name: share_social_media_plugin
-description: Share social media plugin 
-version: 0.0.1
-author: victormanuelfrancodev@gmail.com
-homepage: 
+description: Share social media plugin, share Line, Twitter, FB, Instagram and more!, I try develop step for step. Any suggestion please contact me.
+version: 1.0.0
+homepage: https://github.com/victormanuelfrancodev/share_social_media_plugin
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

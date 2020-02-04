@@ -11,9 +11,8 @@ class ShareSocialMediaPlugin {
     return version;
   }
 
-  static Future<void> shareLine(String urlTemp) async{
-    return _channel.invokeMethod('shareLine', <String, dynamic> {
-      'urlTemp':urlTemp
-    });
+  static Future<void> shareLine(String urlTemp) async {
+    return _channel
+        .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 }

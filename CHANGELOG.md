@@ -1,3 +1,9 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Line Share
+*Share text for your contacts in line
+
+## 1.0.0
+
+* Fix some license
+*Share text for your contacts in line
