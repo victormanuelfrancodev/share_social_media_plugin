@@ -13,6 +13,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  /*static final Share twitterLogin = new TwitterLogin(
+    consumerKey: 'kkOvaF1Mowy4JTvCxKTV5O1WF',
+    consumerSecret: 'ZECGsI6UUDBEUVGkJe4S5vd0FGqGxC3wMJCgsXgPRfjSwRFnyH',
+  );*/
+
+  static final share = ShareSocialMediaPlugin(
+    consumerKey: 'kkOvaF1Mowy4JTvCxKTV5O1WF',
+    consumerSecret: 'ZECGsI6UUDBEUVGkJe4S5vd0FGqGxC3wMJCgsXgPRfjSwRFnyH',
+  );
 
   @override
   void initState() {
@@ -42,6 +51,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    //.setKeys("3WGlyun7pWXYP6s5GjFiaCFCI", "pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT");
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -54,6 +65,13 @@ class _MyAppState extends State<MyApp> {
                 await ShareSocialMediaPlugin.shareLine("http://www.google.com");
               },
               child: Text('Line', style: TextStyle(fontSize: 20)),
+            ),
+            RaisedButton(
+              onPressed: () async {
+                final TwitterLoginResult result = await share.authorize();
+                print("result ${result.status}");
+              },
+              child: Text('Twitter', style: TextStyle(fontSize: 20)),
             )
           ],
         ),

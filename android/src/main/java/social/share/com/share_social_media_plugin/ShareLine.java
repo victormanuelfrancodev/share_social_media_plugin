@@ -3,12 +3,33 @@ package social.share.com.share_social_media_plugin;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+
+import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
+import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.MethodCall;
+import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.plugin.common.PluginRegistry.Registrar;
+
+import java.util.HashMap;
 
 /** Handles share intent. */
-class ShareLine {
+class ShareLine extends Callback<TwitterSession> implements PluginRegistry.ActivityResultListener{
 
   private Activity activity;
-
+  private TwitterAuthClient authClientInstance;
+  private Result pendingResult;
 
   ShareLine(Activity activity) {
     this.activity = activity;
@@ -26,13 +47,6 @@ class ShareLine {
     if (text == null || text.isEmpty()) {
       throw new IllegalArgumentException("Non-empty text expected");
     }
-/*
-    Intent shareIntent = new Intent();
-    shareIntent.setAction(Intent.ACTION_SEND);
-    shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "example");
-    shareIntent.setType("text/plain");
-  */
     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://social-plugins.line.me/lineit/share?url="+text));
     Intent chooserIntent = Intent.createChooser(browserIntent, null /* dialog title optional */);
     if (activity != null) {
@@ -42,4 +56,111 @@ class ShareLine {
       activity.startActivity(chooserIntent);
     }
   }
+
+  void setPendingResult(String methodName, MethodChannel.Result result) {
+    if (pendingResult != null) {
+      result.error(
+              "TWITTER_LOGIN_IN_PROGRESS",
+              methodName + " called while another Twitter " +
+                      "login operation was in progress.",
+              null
+      );
+    }
+
+    pendingResult = result;
+  }
+
+  void getCurrentSession(Result result, MethodCall call) {
+    initializeAuthClient(call);
+    TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+    HashMap<String, Object> sessionMap = sessionToMap(session);
+
+    result.success(sessionMap);
+  }
+
+  void authorize(Result result, MethodCall call) {
+    setPendingResult("authorize", result);
+    initializeAuthClient(call).authorize(activity, this);
+  }
+
+  private TwitterAuthClient initializeAuthClient(MethodCall call) {
+    if (authClientInstance == null) {
+      String consumerKey = call.argument("consumerKey");
+      String consumerSecret = call.argument("consumerSecret");
+
+      authClientInstance = configureClient(consumerKey, consumerSecret);
+    }
+
+    return authClientInstance;
+  }
+
+  private TwitterAuthClient configureClient(String consumerKey, String consumerSecret) {
+    TwitterAuthConfig authConfig = new TwitterAuthConfig(consumerKey, consumerSecret);
+    TwitterConfig config = new TwitterConfig.Builder(activity.getApplicationContext())
+            .twitterAuthConfig(authConfig)
+            .build();
+    Twitter.initialize(config);
+
+    return new TwitterAuthClient();
+  }
+
+   void logOut(Result result, MethodCall call) {
+    CookieSyncManager.createInstance(activity.getApplicationContext());
+    CookieManager cookieManager = CookieManager.getInstance();
+    cookieManager.removeSessionCookie();
+
+    initializeAuthClient(call);
+    TwitterCore.getInstance().getSessionManager().clearActiveSession();
+    result.success(null);
+  }
+
+  private HashMap<String, Object> sessionToMap(final TwitterSession session) {
+    if (session == null) {
+      return null;
+    }
+
+    return new HashMap<String, Object>() {{
+      put("secret", session.getAuthToken().secret);
+      put("token", session.getAuthToken().token);
+      put("userId", String.valueOf(session.getUserId()));
+      put("username", session.getUserName());
+    }};
+  }
+
+  @Override
+  public void success(final com.twitter.sdk.android.core.Result<TwitterSession> result) {
+    if (pendingResult != null) {
+      final HashMap<String, Object> sessionMap = sessionToMap(result.data);
+      final HashMap<String, Object> resultMap = new HashMap<String, Object>() {{
+        put("status", "loggedIn");
+        put("session", sessionMap);
+      }};
+
+      pendingResult.success(resultMap);
+      pendingResult = null;
+    }
+  }
+
+  @Override
+  public void failure(final TwitterException exception) {
+    if (pendingResult != null) {
+      final HashMap<String, Object> resultMap = new HashMap<String, Object>() {{
+        put("status", "error");
+        put("errorMessage", exception.getMessage());
+      }};
+
+      pendingResult.success(resultMap);
+      pendingResult = null;
+    }
+  }
+
+  @Override
+  public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (authClientInstance != null) {
+      authClientInstance.onActivityResult(requestCode, resultCode, data);
+    }
+
+    return false;
+  }
+
 }

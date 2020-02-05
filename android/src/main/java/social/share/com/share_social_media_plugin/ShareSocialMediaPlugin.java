@@ -8,6 +8,7 @@ import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+
 /** Plugin method host for presenting a share sheet via Intent */
 public class ShareSocialMediaPlugin implements FlutterPlugin, ActivityAware {
 
@@ -31,6 +32,7 @@ public class ShareSocialMediaPlugin implements FlutterPlugin, ActivityAware {
     methodChannel.setMethodCallHandler(null);
     methodChannel = null;
     share = null;
+
   }
 
   @Override

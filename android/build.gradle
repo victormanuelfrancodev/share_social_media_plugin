@@ -32,3 +32,7 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+dependencies {
+    api 'com.twitter.sdk.android:twitter-core:3.1.1'
+}

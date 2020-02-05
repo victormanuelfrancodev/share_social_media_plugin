@@ -17,7 +17,7 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
         }
         open(scheme: "https://social-plugins.line.me/lineit/share?url=\(urlT)")
         result("Ok")
-        }
+     }
   }
 
 
