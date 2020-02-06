@@ -32,3 +32,16 @@ Share in Line.
 ```dart
  await ShareSocialMediaPlugin.shareLine("My share text");
 ```
+Share in Twitter
+```dart
+//Set keys
+final twitterLogin = new ShareSocialMediaPlugin(
+      consumerKey: "consumerKey",
+      consumerSecret: 'consumerSecret');
+
+      twitterLogin.shareTwitter("ありがとう");
+```
+
+
+Thank you for your repo
+https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java

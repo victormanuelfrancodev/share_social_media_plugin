@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:share_social_media_plugin/twitter_client.dart';
 
 class ShareSocialMediaPlugin {
 
@@ -24,14 +25,27 @@ class ShareSocialMediaPlugin {
   static const MethodChannel channel =
       const MethodChannel('share_social_media_plugin');
 
-
+  //Share Line
   static Future<void> shareLine(String urlTemp) async {
     return channel
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 
 
-  //Login twitter
+  //Share Twitter
+  //Share Line
+   void shareTwitter(String urlTemp) async{
+     TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
+     if (TwitterClient.twitter == null){
+       TwitterClient();
+     }else{
+       var tc = TwitterClient();
+       tc.tweet(urlTemp);
+     }
+  }
+
+
+  //Login Twitter
 
   Future<bool> get isSessionActive async => await currentSession != null;
 

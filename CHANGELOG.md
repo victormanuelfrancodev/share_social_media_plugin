@@ -15,3 +15,9 @@
 ## 1.0.2
 
 * Readme
+
+## 1.0.3
+* Only in Android
+* Log in Twitter
+* LogOut Twitter
+* Share text in Twitter
