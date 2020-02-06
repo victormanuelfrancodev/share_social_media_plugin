@@ -1,7 +1,10 @@
 package social.share.com.share_social_media_plugin;
 
+import io.flutter.Log;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.PluginRegistry;
+
 import java.util.Map;
 
 /** Handles the method calls for the plugin. */
@@ -21,12 +24,11 @@ class MethodCallHandler implements MethodChannel.MethodCallHandler {
       if (!(call.arguments instanceof Map)) {
         throw new IllegalArgumentException("Map argument expected");
       }
-      // Android does not support showing the share sheet at a particular point on screen.
       shareLine.share((String) call.argument("urlTemp"));
       result.success(null);
-    } else if (call.method.equals("getCurrentSessionTwitter")) {
+    } else if (call.method.equals("getCurrentSession")) {
       shareLine.getCurrentSession(result, call);
-    } else if (call.method.equals("authorizeTwitter")){
+    } else if (call.method.equals("authorize")){
       shareLine.authorize(result, call);
     }else if (call.method.equals("logOutTwitter")){
       shareLine.logOut(result, call);

@@ -3,6 +3,7 @@ package social.share.com.share_social_media_plugin;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -31,8 +32,10 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
   private TwitterAuthClient authClientInstance;
   private Result pendingResult;
 
+
   ShareLine(Activity activity) {
     this.activity = activity;
+
   }
 
   /**
@@ -41,6 +44,7 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
    */
   void setActivity(Activity activity) {
     this.activity = activity;
+
   }
 
   void share(String text) {
@@ -74,21 +78,24 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
     initializeAuthClient(call);
     TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
     HashMap<String, Object> sessionMap = sessionToMap(session);
-
+    //Log.d("client",session.getUserName());
     result.success(sessionMap);
   }
 
   void authorize(Result result, MethodCall call) {
     setPendingResult("authorize", result);
-    initializeAuthClient(call).authorize(activity, this);
+   // Log.d("client","authorize");
+    initializeAuthClient(call).authorize(activity,this);
+
   }
 
   private TwitterAuthClient initializeAuthClient(MethodCall call) {
     if (authClientInstance == null) {
       String consumerKey = call.argument("consumerKey");
       String consumerSecret = call.argument("consumerSecret");
-
+      Log.d("Client","Iniciando sin internet");
       authClientInstance = configureClient(consumerKey, consumerSecret);
+      Log.d("Client",authClientInstance.toString());
     }
 
     return authClientInstance;
@@ -100,7 +107,7 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
             .twitterAuthConfig(authConfig)
             .build();
     Twitter.initialize(config);
-
+    Log.d("Client",config.toString());
     return new TwitterAuthClient();
   }
 
@@ -129,6 +136,7 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
 
   @Override
   public void success(final com.twitter.sdk.android.core.Result<TwitterSession> result) {
+    Log.d("client","successss");
     if (pendingResult != null) {
       final HashMap<String, Object> sessionMap = sessionToMap(result.data);
       final HashMap<String, Object> resultMap = new HashMap<String, Object>() {{
@@ -143,6 +151,7 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
 
   @Override
   public void failure(final TwitterException exception) {
+    Log.d("client",exception.getMessage());
     if (pendingResult != null) {
       final HashMap<String, Object> resultMap = new HashMap<String, Object>() {{
         put("status", "error");
@@ -156,6 +165,7 @@ class ShareLine extends Callback<TwitterSession> implements PluginRegistry.Activ
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+    Log.d("client","funcionando");
     if (authClientInstance != null) {
       authClientInstance.onActivityResult(requestCode, resultCode, data);
     }
