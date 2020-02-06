@@ -21,16 +21,12 @@ class ShareSocialMediaPlugin {
   final String consumerSecret;
   final Map<String, String> _keys;
 
-  static const MethodChannel _channel =
+  static const MethodChannel channel =
       const MethodChannel('share_social_media_plugin');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
 
   static Future<void> shareLine(String urlTemp) async {
-    return _channel
+    return channel
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 
@@ -40,7 +36,7 @@ class ShareSocialMediaPlugin {
   Future<bool> get isSessionActive async => await currentSession != null;
 
   Future<TwitterSession> get currentSession async {
-    final Map<dynamic, dynamic> session = await _channel.invokeMethod('getCurrentSession', _keys);
+    final Map<dynamic, dynamic> session = await channel.invokeMethod('getCurrentSession', _keys);
 
     if (session == null) {
       return null;
@@ -51,13 +47,13 @@ class ShareSocialMediaPlugin {
 
   Future<TwitterLoginResult> authorize() async {
     final Map<dynamic, dynamic> result =
-    await _channel.invokeMethod('authorize', _keys);
+    await channel.invokeMethod('authorize', _keys);
 
     return new TwitterLoginResult._(result.cast<String, dynamic>());
   }
 
   /// Logs the currently logged in user out.
-  Future<void> logOut() async => _channel.invokeMethod('logOutTwitter', _keys);
+  Future<void> logOut() async => channel.invokeMethod('logOut', _keys);
 }
 
 //Twitter Session

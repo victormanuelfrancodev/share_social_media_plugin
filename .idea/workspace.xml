@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d56d43e-b71a-4dca-aa32-a690b25dfb55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/share_social_media_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/share_social_media_plugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/share_social_media_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/share_social_media_plugin.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/lib/share_social_media_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/lib/share_social_media_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/share_social_media_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/share_social_media_plugin.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,8 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/share_social_media_plugin.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="61" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="247">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -42,34 +33,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="138" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="138" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="7" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -77,11 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="14" column="78" lean-forward="true" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="78" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-466">
+              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -102,8 +66,10 @@
       <find>plugin</find>
       <find>onActivityResult</find>
       <find>authClientInstance</find>
-      <find>sessionToMap</find>
       <find>ShareSocialMediaPlugin</find>
+      <find>_channel</find>
+      <find>login_tweet</find>
+      <find>sessionToMap</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -121,17 +87,17 @@
         <option value="$PROJECT_DIR$/android/build.gradle" />
         <option value="$PROJECT_DIR$/ios/Classes/SwiftShareSocialMediaPlugin.swift" />
         <option value="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java" />
-        <option value="$PROJECT_DIR$/lib/share_social_media_plugin.dart" />
         <option value="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java" />
         <option value="$PROJECT_DIR$/example/lib/main.dart" />
+        <option value="$PROJECT_DIR$/lib/share_social_media_plugin.dart" />
         <option value="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-92" />
-    <option name="y" value="195" />
-    <option name="width" value="1442" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="438" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -191,6 +157,11 @@
               <item name="share_social_media_plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="share_social_media_plugin" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="share_social_media_plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="share_social_media_plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -252,7 +223,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-92" y="195" width="1442" height="877" extended-state="0" />
+    <frame x="-8" y="23" width="1442" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
@@ -263,9 +234,8 @@
       <window_info id="Resources Explorer" order="5" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Find" />
       <window_info anchor="bottom" id="Dart Analysis" order="0" weight="0.3299566" />
-      <window_info active="true" anchor="bottom" id="Run" order="1" sideWeight="0.49928468" visible="true" weight="0.29044586" />
+      <window_info active="true" anchor="bottom" id="Run" order="1" sideWeight="0.49928468" visible="true" weight="0.27261147" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.3299363" />
       <window_info anchor="bottom" id="Debug" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.3299363" />
@@ -273,6 +243,7 @@
       <window_info anchor="bottom" id="Flutter Performance" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3299566" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.3299566" />
+      <window_info anchor="bottom" id="Find" order="9" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Flutter Inspector" order="2" />
@@ -343,20 +314,10 @@
     <entry file="file://$PROJECT_DIR$/example/share_social_media_plugin_example.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/share_social_media_plugin.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="138" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="138" />
+        <state relative-caret-position="116">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -365,28 +326,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/MethodCallHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
+        <state relative-caret-position="225">
+          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="28" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/share_social_media_plugin.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareLine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="7" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="14" column="78" lean-forward="true" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="78" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-466">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
         </state>
       </provider>
     </entry>
