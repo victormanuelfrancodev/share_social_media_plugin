@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d56d43e-b71a-4dca-aa32-a690b25dfb55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/lib/share_social_media_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/lib/share_social_media_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/share_social_media_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/share_social_media_plugin.dart" afterDir="false" />
-    </list>
+    <list default="true" id="3d56d43e-b71a-4dca-aa32-a690b25dfb55" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +11,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_One_API_29" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
@@ -44,8 +38,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-466">
-              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            <state relative-caret-position="254">
+              <caret line="67" column="11" lean-forward="true" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -350,8 +347,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/social/share/com/share_social_media_plugin/ShareSocialMediaPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-466">
-          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+        <state relative-caret-position="254">
+          <caret line="67" column="11" lean-forward="true" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
