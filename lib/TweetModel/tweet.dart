@@ -70,7 +70,7 @@ class Tweet {
         originalProfileUrl = originalUser["profile_image_url_https"];
 
         var originalEntities =
-        (retweetStatus["entities"]) as Map<String, dynamic>;
+            (retweetStatus["entities"]) as Map<String, dynamic>;
         var originalMedia = (originalEntities["media"]) as List<dynamic>;
 
         List<String> originalMedias = List();
@@ -97,7 +97,7 @@ class Tweet {
         originalProfileUrl = originalUser["profile_image_url_https"];
 
         var originalEntities =
-        (quotedStatus["entities"]) as Map<String, dynamic>;
+            (quotedStatus["entities"]) as Map<String, dynamic>;
         var originalMedia = (originalEntities["media"]) as List<dynamic>;
 
         List<String> originalMedias = List();
@@ -117,7 +117,7 @@ class Tweet {
     try {
       if (urls != null && urls.isNotEmpty)
         urls.forEach(
-                (url) => body = body.replaceFirst(url["url"], url["expanded_url"]));
+            (url) => body = body.replaceFirst(url["url"], url["expanded_url"]));
     } catch (e) {
       print(e);
     }
@@ -133,8 +133,8 @@ class Tweet {
   String _formatText(String full) {
     String addLinks(String formatted) {
       final matches = RegExp(
-          "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&/=]*)",
-          caseSensitive: false)
+              "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_+.~#?&/=]*)",
+              caseSensitive: false)
           .allMatches(full);
 
       for (final match in matches) {
@@ -163,7 +163,7 @@ class Tweet {
 
     String addMentions(String formatted) {
       final matches =
-      RegExp("(@[A-Za-z0-9_]+)", caseSensitive: false).allMatches(full);
+          RegExp("(@[A-Za-z0-9_]+)", caseSensitive: false).allMatches(full);
 
       for (final match in matches) {
         final fullLink = full.substring(match.start, match.end);
@@ -179,7 +179,7 @@ class Tweet {
 
     String addTags(String formatted) {
       final matches =
-      RegExp("(#[A-Za-z0-9_]+)", caseSensitive: false).allMatches(full);
+          RegExp("(#[A-Za-z0-9_]+)", caseSensitive: false).allMatches(full);
 
       for (final match in matches) {
         final fullLink = full.substring(match.start, match.end);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:flutter/services.dart';
+import 'dart:io' show Platform;
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final twitterLogin = new ShareSocialMediaPlugin(
       consumerKey: "YOUR_CONSUMER_KEY",
-      consumerSecret: 'CONSUMER_SECRECT');
+      consumerSecret: 'YOUR CONSUMER SECRECT');
 
   Future<int> _startSession() async {
     var sessionData = await twitterLogin.currentSession;
@@ -52,9 +51,21 @@ class _MyAppState extends State<MyApp> {
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),
             new RaisedButton(
-              child: new Text('Share in Twitter'),
-              onPressed: () {
-                twitterLogin.shareTwitter("hola mundo");
+              child:
+                  new Text('Share in Twitter', style: TextStyle(fontSize: 20)),
+              onPressed: () async {
+                if (Platform.isAndroid) {
+                  twitterLogin.shareTwitter("ありがとう");
+                } else if (Platform.isIOS) {
+                  var sessionTwitter = await twitterLogin.currentSessionIOS();
+                  var tweet = await twitterLogin.shareTwitteriOS(
+                      sessionTwitter["outhToken"],
+                      sessionTwitter["oauthTokenSecret"],
+                      "ありがとう",
+                      twitterLogin.consumerKey,
+                      twitterLogin.consumerSecret);
+                  print(tweet.body.toString());
+                }
               },
             ),
           ],

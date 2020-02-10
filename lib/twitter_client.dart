@@ -1,12 +1,9 @@
 import 'package:crypto/crypto.dart';
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:random_string/random_string.dart';
-import 'package:crypto/crypto.dart';
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
-
 import 'TweetModel/tweet.dart';
 import 'TweetModel/tweet_statuses.dart';
 import 'TweetModel/user.dart';

@@ -21,3 +21,9 @@
 * Log in Twitter
 * LogOut Twitter
 * Share text in Twitter
+
+## 1.0.4
+* Readme
+
+## 1.0.5
+* Add support for iOS Twitter share

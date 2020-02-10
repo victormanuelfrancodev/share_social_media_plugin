@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:share_social_media_plugin/TweetModel/user.dart';
 
-TweetStatuses tweetStatusesFromJson(String str) => TweetStatuses.fromJson(json.decode(str));
+TweetStatuses tweetStatusesFromJson(String str) =>
+    TweetStatuses.fromJson(json.decode(str));
 
 String tweetStatusesToJson(TweetStatuses data) => json.encode(data.toJson());
 
@@ -62,60 +63,59 @@ class TweetStatuses {
   });
 
   factory TweetStatuses.fromJson(Map<String, dynamic> json) => TweetStatuses(
-    createdAt: json["created_at"],
-    idStr: json["id_str"],
-    text: json["text"],
-    source: json["source"],
-    truncated: json["truncated"],
-    inReplyToStatusId: json["in_reply_to_status_id"],
-    inReplyToStatusIdStr: json["in_reply_to_status_id_str"],
-    inReplyToUserId: json["in_reply_to_user_id"],
-    inReplyToUserIdStr: json["in_reply_to_user_id_str"],
-    inReplyToScreenName: json["in_reply_to_screen_name"],
-    geo: json["geo"],
-    coordinates: json["coordinates"],
-    place: json["place"],
-    contributors: json["contributors"],
-    isQuoteStatus: json["is_quote_status"],
-    quoteCount: json["quote_count"],
-    replyCount: json["reply_count"],
-    retweetCount: json["retweet_count"],
-    favoriteCount: json["favorite_count"],
-    favorited: json["favorited"],
-    retweeted: json["retweeted"],
-    possiblySensitive: json["possibly_sensitive"],
-    filterLevel: json["filter_level"],
-    lang: json["lang"],
-  );
+        createdAt: json["created_at"],
+        idStr: json["id_str"],
+        text: json["text"],
+        source: json["source"],
+        truncated: json["truncated"],
+        inReplyToStatusId: json["in_reply_to_status_id"],
+        inReplyToStatusIdStr: json["in_reply_to_status_id_str"],
+        inReplyToUserId: json["in_reply_to_user_id"],
+        inReplyToUserIdStr: json["in_reply_to_user_id_str"],
+        inReplyToScreenName: json["in_reply_to_screen_name"],
+        geo: json["geo"],
+        coordinates: json["coordinates"],
+        place: json["place"],
+        contributors: json["contributors"],
+        isQuoteStatus: json["is_quote_status"],
+        quoteCount: json["quote_count"],
+        replyCount: json["reply_count"],
+        retweetCount: json["retweet_count"],
+        favoriteCount: json["favorite_count"],
+        favorited: json["favorited"],
+        retweeted: json["retweeted"],
+        possiblySensitive: json["possibly_sensitive"],
+        filterLevel: json["filter_level"],
+        lang: json["lang"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "created_at": createdAt,
-    "id_str": idStr,
-    "text": text,
-    "source": source,
-    "truncated": truncated,
-    "in_reply_to_status_id": inReplyToStatusId,
-    "in_reply_to_status_id_str": inReplyToStatusIdStr,
-    "in_reply_to_user_id": inReplyToUserId,
-    "in_reply_to_user_id_str": inReplyToUserIdStr,
-    "in_reply_to_screen_name": inReplyToScreenName,
-    "geo": geo,
-    "coordinates": coordinates,
-    "place": place,
-    "contributors": contributors,
-    "is_quote_status": isQuoteStatus,
-    "quote_count": quoteCount,
-    "reply_count": replyCount,
-    "retweet_count": retweetCount,
-    "favorite_count": favoriteCount,
-    "favorited": favorited,
-    "retweeted": retweeted,
-    "possibly_sensitive": possiblySensitive,
-    "filter_level": filterLevel,
-    "lang": lang,
-  };
+        "created_at": createdAt,
+        "id_str": idStr,
+        "text": text,
+        "source": source,
+        "truncated": truncated,
+        "in_reply_to_status_id": inReplyToStatusId,
+        "in_reply_to_status_id_str": inReplyToStatusIdStr,
+        "in_reply_to_user_id": inReplyToUserId,
+        "in_reply_to_user_id_str": inReplyToUserIdStr,
+        "in_reply_to_screen_name": inReplyToScreenName,
+        "geo": geo,
+        "coordinates": coordinates,
+        "place": place,
+        "contributors": contributors,
+        "is_quote_status": isQuoteStatus,
+        "quote_count": quoteCount,
+        "reply_count": replyCount,
+        "retweet_count": retweetCount,
+        "favorite_count": favoriteCount,
+        "favorited": favorited,
+        "retweeted": retweeted,
+        "possibly_sensitive": possiblySensitive,
+        "filter_level": filterLevel,
+        "lang": lang,
+      };
 }
-
 
 class Url {
   String url;
@@ -133,20 +133,21 @@ class Url {
   });
 
   factory Url.fromJson(Map<String, dynamic> json) => Url(
-    url: json["url"],
-    expandedUrl: json["expanded_url"],
-    displayUrl: json["display_url"],
-    indices: List<int>.from(json["indices"].map((x) => x)),
-    unwound: json["unwound"] == null ? null : Unwound.fromJson(json["unwound"]),
-  );
+        url: json["url"],
+        expandedUrl: json["expanded_url"],
+        displayUrl: json["display_url"],
+        indices: List<int>.from(json["indices"].map((x) => x)),
+        unwound:
+            json["unwound"] == null ? null : Unwound.fromJson(json["unwound"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "url": url,
-    "expanded_url": expandedUrl,
-    "display_url": displayUrl,
-    "indices": List<dynamic>.from(indices.map((x) => x)),
-    "unwound": unwound == null ? null : unwound.toJson(),
-  };
+        "url": url,
+        "expanded_url": expandedUrl,
+        "display_url": displayUrl,
+        "indices": List<dynamic>.from(indices.map((x) => x)),
+        "unwound": unwound == null ? null : unwound.toJson(),
+      };
 }
 
 class Unwound {
@@ -163,18 +164,18 @@ class Unwound {
   });
 
   factory Unwound.fromJson(Map<String, dynamic> json) => Unwound(
-    url: json["url"],
-    status: json["status"],
-    title: json["title"],
-    description: json["description"],
-  );
+        url: json["url"],
+        status: json["status"],
+        title: json["title"],
+        description: json["description"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "url": url,
-    "status": status,
-    "title": title,
-    "description": description,
-  };
+        "url": url,
+        "status": status,
+        "title": title,
+        "description": description,
+      };
 }
 
 class Derived {
@@ -185,12 +186,13 @@ class Derived {
   });
 
   factory Derived.fromJson(Map<String, dynamic> json) => Derived(
-    locations: List<Location>.from(json["locations"].map((x) => Location.fromJson(x))),
-  );
+        locations: List<Location>.from(
+            json["locations"].map((x) => Location.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
-  };
+        "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
+      };
 }
 
 class Location {
@@ -213,24 +215,24 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    country: json["country"],
-    countryCode: json["country_code"],
-    locality: json["locality"],
-    region: json["region"],
-    subRegion: json["sub_region"],
-    fullName: json["full_name"],
-    geo: Geo.fromJson(json["geo"]),
-  );
+        country: json["country"],
+        countryCode: json["country_code"],
+        locality: json["locality"],
+        region: json["region"],
+        subRegion: json["sub_region"],
+        fullName: json["full_name"],
+        geo: Geo.fromJson(json["geo"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "country": country,
-    "country_code": countryCode,
-    "locality": locality,
-    "region": region,
-    "sub_region": subRegion,
-    "full_name": fullName,
-    "geo": geo.toJson(),
-  };
+        "country": country,
+        "country_code": countryCode,
+        "locality": locality,
+        "region": region,
+        "sub_region": subRegion,
+        "full_name": fullName,
+        "geo": geo.toJson(),
+      };
 }
 
 class Geo {
@@ -243,12 +245,12 @@ class Geo {
   });
 
   factory Geo.fromJson(Map<String, dynamic> json) => Geo(
-    coordinates: List<double>.from(json["coordinates"].map((x) => 0.0)),
-    type: json["type"],
-  );
+        coordinates: List<double>.from(json["coordinates"].map((x) => 0.0)),
+        type: json["type"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
-    "type": type,
-  };
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "type": type,
+      };
 }

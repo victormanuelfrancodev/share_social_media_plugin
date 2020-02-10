@@ -17,7 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 Share text in your social media.
 
   - Line (Android / iOS)
-  - Twitter (only for Android)
+  - Twitter (Android / iOS)
   - Instagram (coming)
 
 ### Example
@@ -35,9 +35,37 @@ final twitterLogin = new ShareSocialMediaPlugin(
       consumerKey: "consumerKey",
       consumerSecret: 'consumerSecret');
 
-      twitterLogin.shareTwitter("ありがとう");
+          onPressed: () async{
+                      if (Platform.isAndroid) {
+                        twitterLogin.shareTwitter("ありがとう");
+                      } else if (Platform.isIOS) {
+                        var sessionTwitter = await twitterLogin.currentSessionIOS();
+                        var tweet = await twitterLogin.shareTwitteriOS(sessionTwitter["outhToken"], sessionTwitter["oauthTokenSecret"],
+                            "ありがとう", twitterLogin.consumerKey, twitterLogin.consumerSecret);
+                        print(tweet.body.toString());
+                      }
+                    },
 ```
+**Note For iOS Twitter
+In plist
+add:
+```
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>TwitterLoginSampleOAuth</string>
+			</array>
+		</dict>
+	</array>
 
+```
+!IMPORTANT
+
+In your developer.twitter.com app , you need add the next callback
+-TwitterLoginSampleOAuth://
+-twittersdk://
 
 Thank you for your repo
 https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java

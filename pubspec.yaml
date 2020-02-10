@@ -1,6 +1,6 @@
 name: share_social_media_plugin
 description: Share social media plugin, share Line, Twitter, FB, Instagram and more!, I try develop step for step. Any suggestion please contact me.
-version: 1.0.3
+version: 1.0.5
 homepage: https://github.com/victormanuelfrancodev/share_social_media_plugin
 
 environment:
@@ -10,10 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  random_string: ^0.0.2
+  random_string:
   http: ^0.12.0+1
   crypto: ^2.0.6
-  intl: ^0.15.7
+  intl:
 
 dev_dependencies:
   flutter_test:
