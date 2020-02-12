@@ -1,18 +1,14 @@
 
 [![N|Social media](https://i.ibb.co/QYMBDZ5/share.png)](https://ibb.co/kqXnmpd)
 
-# share_social_media_plugin_example
-
-Demonstrates how to use the share_social_media_plugin plugin.
+Share social media plugin
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This project is a starting point for a Flutter
+[plug-in package](https://flutter.dev/developing-packages/),
+a specialized package that includes platform-specific implementation code for
+Android and/or iOS.
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
@@ -21,8 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 
 Share text in your social media.
 
-  - Line  (iOS/Android)
-  - Twitter (ios/Android)
+  - Line (Android / iOS)
+  - Twitter (Android / iOS)
   - Instagram (coming)
 
 ### Example
@@ -66,11 +62,45 @@ add:
 	</array>
 
 ```
+Add in your Delegate
+
+ios/Runner/AppDelegate.swift
+
+```swift
+ import OAuthSwift
+
+ @UIApplicationMain
+ @objc class AppDelegate: FlutterAppDelegate {
+   override func application(
+     _ application: UIApplication,
+     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+   ) -> Bool {
+     GeneratedPluginRegistrant.register(with: self)
+     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+   }
+     //Add this
+     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if (url.host == "oauth-callback") {
+           OAuthSwift.handle(url: url)
+         }else{
+           OAuthSwift.handle(url: url)
+         }
+         return true
+     }
+ }
+
+```
+
+
 !IMPORTANT
 
 In your developer.twitter.com app , you need add the next callback
+
 -TwitterLoginSampleOAuth://
+
 -twittersdk://
+
+
 
 Thank you for your repo
 https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java

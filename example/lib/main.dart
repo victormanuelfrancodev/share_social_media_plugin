@@ -12,23 +12,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final twitterLogin = new ShareSocialMediaPlugin(
-      consumerKey: "YOUR_CONSUMER_KEY",
-      consumerSecret: 'YOUR CONSUMER SECRECT');
-
-  Future<int> _startSession() async {
-    var sessionData = await twitterLogin.currentSession;
-
-    if (sessionData == null) {
-      var result = await twitterLogin.authorize();
-    } else
-      print(sessionData);
-
-    return 0;
-  }
-
-  void _logout() async {
-    await twitterLogin.logOut();
-  }
+      consumerKey: "3WGlyun7pWXYP6s5GjFiaCFCI",
+      consumerSecret: 'pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT');
+  var titleTwitterButton = "Connect Twitter";
 
   @override
   void initState() {
@@ -37,6 +23,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    twitterLogin.isSessionActive.then((value){
+      if (value){
+        titleTwitterButton = "Share in twitter";
+      }else{
+        titleTwitterButton = "Connect to Twitter";
+      }
+      setState(() {
+
+      });
+    });
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -51,12 +48,12 @@ class _MyAppState extends State<MyApp> {
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),
             new RaisedButton(
-              child:
-                  new Text('Share in Twitter', style: TextStyle(fontSize: 20)),
+              child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
               onPressed: () async {
                 if (Platform.isAndroid) {
-                  twitterLogin.shareTwitter("ありがとう");
-                } else if (Platform.isIOS) {
+                       twitterLogin.shareTwitter("conectado desde plugin");
+                     }
+                  else if (Platform.isIOS) {
                   var sessionTwitter = await twitterLogin.currentSessionIOS();
                   var tweet = await twitterLogin.shareTwitteriOS(
                       sessionTwitter["outhToken"],
