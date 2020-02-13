@@ -28,6 +28,19 @@
 ## 1.0.5
 * Add support for iOS Twitter share
 
-## 1.06
+## 1.0.6
 ** Instagram stories from album
 ** Instagram stories from assets
+
+## 1.0.7
+** Instagram stories from album Android
+** Instagram stories from assets ios/Android
+
+## 1.0.8
+** Fix readme
+
+## 1.09
+** Fix dependencies
+
+## 1.1.0
+** fix readme

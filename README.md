@@ -17,9 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 
 Share text in your social media.
 
-  - Line (Android / iOS)
-  - Twitter (Android / iOS)
-  - Instagram (coming)
+  - Line (Android / iOS) :+1:
+  - Twitter (Android / iOS) :+1:
+  - Instagram (Android /iOS) :+1:
 
 ### Example
 
@@ -101,9 +101,9 @@ In your developer.twitter.com app , you need add the next callback
 -twittersdk://
 
 
-### Instagram- Share stories
-(Only android )
+### Instagram- Share stories (ios /android)
 
+##Android
 Read some image from flutter assets
 ```dart
  RaisedButton(
@@ -135,9 +135,44 @@ android/app/src/main/AndroidManifest.xml
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 ```
 
-In some days for iOS! wait!
-Thank you!!
+## iOS
+:fire:
+```dart
+ RaisedButton(
+              onPressed: () async {
+                  await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+              },
+              child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
+            )
 
+```
+
+In your plist add
+```
+ <key>LSApplicationQueriesSchemes</key>
+        <array>
+            <string>instagram-stories</string>
+        </array>
+```
+
+**The user needs to have instagram installed
+
+
+Thank you!! :beer::beer::beer::beer::beer::beer:
+
+:sparkling_heart:
+ありがとうございます
+
+おけさん
+
+まりもさん
+
+まさきさん
+
+アキコさん
+
+
+ありがとう Driglo :sparkles:
 
 
 

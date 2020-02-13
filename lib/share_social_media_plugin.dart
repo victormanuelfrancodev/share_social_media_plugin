@@ -33,12 +33,9 @@ class ShareSocialMediaPlugin {
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 
-  static Future<void> shareInstagram(String text,String assetFile) async {
-    return channel
-        .invokeMethod('shareInstagram', <String, dynamic>{
-          'text': text,
-          'assetFile':assetFile
-        });
+  static Future<void> shareInstagram(String text, String assetFile) async {
+    return channel.invokeMethod('shareInstagram',
+        <String, dynamic>{'text': text, 'assetFile': assetFile});
   }
 
   static Future<void> shareInstagramAlbum() async {
