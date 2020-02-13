@@ -27,3 +27,7 @@
 
 ## 1.0.5
 * Add support for iOS Twitter share
+
+## 1.06
+** Instagram stories from album
+** Instagram stories from assets

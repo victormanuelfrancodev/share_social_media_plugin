@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
 
@@ -12,8 +11,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final twitterLogin = new ShareSocialMediaPlugin(
-      consumerKey: "3WGlyun7pWXYP6s5GjFiaCFCI",
-      consumerSecret: 'pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT');
+      consumerKey: "YOUR CONSUMER KEY",
+      consumerSecret: 'YOUR CONSUMER SECRECT');
   var titleTwitterButton = "Connect Twitter";
 
   @override
@@ -23,15 +22,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    twitterLogin.isSessionActive.then((value){
-      if (value){
+    twitterLogin.isSessionActive.then((value) {
+      if (value) {
         titleTwitterButton = "Share in twitter";
-      }else{
+      } else {
         titleTwitterButton = "Connect to Twitter";
       }
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     return MaterialApp(
@@ -47,13 +44,12 @@ class _MyAppState extends State<MyApp> {
               },
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),
-            new RaisedButton(
+            RaisedButton(
               child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
               onPressed: () async {
                 if (Platform.isAndroid) {
-                       twitterLogin.shareTwitter("conectado desde plugin");
-                     }
-                  else if (Platform.isIOS) {
+                  twitterLogin.shareTwitter("conectado desde plugin");
+                } else if (Platform.isIOS) {
                   var sessionTwitter = await twitterLogin.currentSessionIOS();
                   var tweet = await twitterLogin.shareTwitteriOS(
                       sessionTwitter["outhToken"],
@@ -64,6 +60,12 @@ class _MyAppState extends State<MyApp> {
                   print(tweet.body.toString());
                 }
               },
+            ),
+            RaisedButton(
+              onPressed: () async {
+                await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+              },
+              child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
             ),
           ],
         ),

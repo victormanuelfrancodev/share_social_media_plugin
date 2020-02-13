@@ -1,6 +1,7 @@
-# share_social_media_plugin
 
-Share social media plugin 
+[![N|Social media](https://i.ibb.co/QYMBDZ5/share.png)](https://ibb.co/kqXnmpd)
+
+Share social media plugin
 
 ## Getting Started
 
@@ -9,8 +10,8 @@ This project is a starting point for a Flutter
 a specialized package that includes platform-specific implementation code for
 Android and/or iOS.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
 
@@ -98,6 +99,45 @@ In your developer.twitter.com app , you need add the next callback
 -TwitterLoginSampleOAuth://
 
 -twittersdk://
+
+
+### Instagram- Share stories
+(Only android )
+
+Read some image from flutter assets
+```dart
+ RaisedButton(
+              onPressed: () async {
+                  await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+              },
+              child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
+            )
+
+```
+
+Public image from album phone
+```dart
+ RaisedButton(
+              onPressed: () async {
+                 await ShareSocialMediaPlugin.shareInstagramAlbum();
+              },
+              child: Text('Share in Instagram from album', style: TextStyle(fontSize: 20)),
+            )
+
+```
+
+(For any case add this code in your AndroidManifest.xml)
+
+android/app/src/main/AndroidManifest.xml
+
+```xml
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
+
+In some days for iOS! wait!
+Thank you!!
+
 
 
 

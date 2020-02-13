@@ -1,6 +1,23 @@
 package social.share.com.share_social_media_plugin;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.os.Environment;
+import android.provider.ContactsContract;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -13,6 +30,12 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import io.flutter.plugin.common.MethodChannel;
@@ -24,6 +47,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 /** Plugin method host for presenting a share sheet via Intent */
 public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements MethodCallHandler, PluginRegistry.ActivityResultListener {
@@ -33,18 +57,22 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
   private static final String METHOD_AUTHORIZE = "authorize";
   private static final String METHOD_LOG_OUT = "logOut";
   private static final String METHOD_LINE_SHARE = "shareLine";
+  private static final String METHOD_INSTAGRAM_SHARE = "shareInstagram";
+  private static final String METHOD_INSTAGRA_SHARE_ALBUM = "shareInstagramAlbum";
 
   private final Registrar registrar;
-
   private TwitterAuthClient authClientInstance;
   private Result pendingResult;
   Activity activity;
   MethodChannel methodChannel;
+  AssetManager assetManager;
+  private static Context context;
 
   public static void registerWith(Registrar registrar) {
 
     final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL_NAME);
     final ShareSocialMediaPlugin plugin = new ShareSocialMediaPlugin(registrar,registrar.activity(),channel);
+    context = registrar.activity().getApplication();
     channel.setMethodCallHandler(plugin);
   }
 
@@ -52,23 +80,9 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
     this.registrar = registrar;
     this.activity = activity;
     this.methodChannel = methodChannel;
+    this.assetManager = registrar.context().getAssets();
     this.methodChannel.setMethodCallHandler(this);
     registrar.addActivityResultListener(this);
-  }
-
-
-  void shareLine(String text) {
-    if (text == null || text.isEmpty()) {
-      throw new IllegalArgumentException("Non-empty text expected");
-    }
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://social-plugins.line.me/lineit/share?url="+text));
-    Intent chooserIntent = Intent.createChooser(browserIntent, null /* dialog title optional */);
-    if (activity != null) {
-      activity.startActivity(browserIntent);
-    }else {
-      chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      activity.startActivity(chooserIntent);
-    }
   }
 
   @Override
@@ -86,12 +100,33 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
       case METHOD_LINE_SHARE:
           shareLine((String) call.argument("urlTemp"));
         break;
+      case METHOD_INSTAGRAM_SHARE:
+        insertInstagram(result,call,(String) call.argument("text"),(String) call.argument("assetFile"));
+        break;
+      case METHOD_INSTAGRA_SHARE_ALBUM:
+        insertInstagramAlbums(result,call);
       default:
         result.notImplemented();
         break;
     }
   }
 
+//Line
+  void shareLine(String text) {
+    if (text == null || text.isEmpty()) {
+      throw new IllegalArgumentException("Non-empty text expected");
+    }
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://social-plugins.line.me/lineit/share?url="+text));
+    Intent chooserIntent = Intent.createChooser(browserIntent, null /* dialog title optional */);
+    if (activity != null) {
+      activity.startActivity(browserIntent);
+    }else {
+      chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      activity.startActivity(chooserIntent);
+    }
+  }
+
+  //Twitter
   private void setPendingResult(String methodName, MethodChannel.Result result) {
     if (pendingResult != null) {
       result.error(
@@ -194,7 +229,151 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
     if (authClientInstance != null) {
       authClientInstance.onActivityResult(requestCode, resultCode, data);
     }
-
+    Log.d("request",Integer.toString(requestCode));
+    if (requestCode == 0){
+      Uri uri = data.getData();
+      shareInstagramAlbum(uri);
+    }
     return false;
   }
+
+  ///INSTAGRAM
+
+  private void insertInstagram(Result result, MethodCall call,String text,String assetFile){
+
+    if (!appInstalledOrNot()) {
+      Dialog dialog=new Dialog(activity);
+      dialog.setTitle("Instagram Application is not installed");
+      dialog.show();
+      return;
+    }
+    shareInstagram(text,assetFile); // share image from gallery
+  }
+
+  private void insertInstagramAlbums(Result result, MethodCall call){
+
+    if (!appInstalledOrNot()) {
+      Dialog dialog=new Dialog(activity);
+      dialog.setTitle("Instagram Application is not installed");
+      dialog.show();
+      return;
+    }
+    shareFromGallery(); // share image from gallery
+  }
+
+  //Instagram functions
+
+  private boolean appInstalledOrNot() {
+
+    boolean app_installed = false;
+    try {
+      ApplicationInfo info = activity.getPackageManager().getApplicationInfo("com.instagram.android", 0);
+      app_installed = true;
+    } catch (PackageManager.NameNotFoundException e) {
+      app_installed = false;
+    }
+    return app_installed;
+  }
+
+  /*This method invoke gallery or any application which support image/* mime type */
+  private void shareFromGallery(){
+      try{
+          Intent intent = new Intent();
+          intent.setType("image/*");
+          intent.setAction(Intent.ACTION_GET_CONTENT);
+          activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0);
+      }catch (Exception e){
+          Log.d("error",e.getMessage());
+      }
+  }
+
+  private void shareInstagramAlbum(Uri uri){
+
+      Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+      shareIntent.setType("image/*");
+
+      shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+      shareIntent.setPackage("com.instagram.android");
+      Intent chooserIntent = Intent.createChooser(shareIntent, null);
+      try {
+        if (activity != null) {
+          activity.startActivity(shareIntent);
+        } else {
+          chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          activity.startActivity(chooserIntent);
+        }
+      } catch (Exception e) {
+        Log.d("error", e.getMessage());
+      }
+  }
+
+  private void shareInstagram(String text,String assetFile){
+
+    String key = registrar.lookupKeyForAsset(assetFile);
+    try {
+      AssetFileDescriptor fd = assetManager.openFd(key);
+      InputStream is = fd.createInputStream();
+      Bitmap bitmap1 = BitmapFactory.decodeStream(is);
+      Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+      shareIntent.setType("image/*");
+
+      shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(text,bitmap1,context));
+      shareIntent.setPackage("com.instagram.android");
+      Intent chooserIntent = Intent.createChooser(shareIntent, null);
+      try {
+        if (activity != null) {
+          activity.startActivity(shareIntent);
+        } else {
+          chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          activity.startActivity(chooserIntent);
+        }
+      } catch (Exception e) {
+        Log.d("error", e.getMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      Log.d("keyImage",e.getMessage());
+    }
+  }
+
+
+
+  static public Uri getLocalBitmapUri(String text,Bitmap bmp, Context context) {
+    Uri bmpUri = null;
+    try {
+      File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+      FileOutputStream out = new FileOutputStream(file);
+      android.graphics.Bitmap.Config bitmapConfig = bmp.getConfig();
+      if(bitmapConfig == null) {
+        bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+      }
+      try {
+        bmp = bmp.copy(bitmapConfig, true);
+        Canvas canvas = new Canvas(bmp);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK); // Text Color
+        paint.setTextSize(32); // Text Size
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, "Testing...".length(), bounds);
+        int x = (bmp.getWidth() - bounds.width())/6;
+        int y = (bmp.getHeight() + bounds.height())/5;
+        canvas.drawText(text, x, y, paint);
+        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+        out.flush();
+        out.close();
+        bmpUri = Uri.fromFile(file);
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return bmpUri;
+  }
 }
+

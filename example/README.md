@@ -101,6 +101,45 @@ In your developer.twitter.com app , you need add the next callback
 -twittersdk://
 
 
+### Instagram- Share stories
+(Only android )
+
+Read some image from flutter assets
+```dart
+ RaisedButton(
+              onPressed: () async {
+                  await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+              },
+              child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
+            )
+
+```
+
+Public image from album phone
+```dart
+ RaisedButton(
+              onPressed: () async {
+                 await ShareSocialMediaPlugin.shareInstagramAlbum();
+              },
+              child: Text('Share in Instagram from album', style: TextStyle(fontSize: 20)),
+            )
+
+```
+
+(For any case add this code in your AndroidManifest.xml)
+
+android/app/src/main/AndroidManifest.xml
+
+```xml
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
+
+In some days for iOS! wait!
+Thank you!!
+
+
+
 
 Thank you for your repo
 https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java

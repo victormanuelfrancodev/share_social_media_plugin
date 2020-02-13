@@ -8,11 +8,13 @@ import Foundation
 public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
 
     var oauthswift: OAuthSwift?
+    var registrar: FlutterPluginRegistrar? = nil
     
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "share_social_media_plugin", binaryMessenger: registrar.messenger())
     let instance = SwiftShareSocialMediaPlugin()
     registrar.addApplicationDelegate(instance)
+    instance.registrar = registrar
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -33,7 +35,14 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
                                      return
               }
        self.getCurrentSession(result, consumerKey: consumerKey, consumerKeySecrect: consumerKeySecrect)
-     } else {
+    }else if("shareInstagram" == call.method){
+        let arguments = call.arguments as! [String:Any]
+        guard let text = arguments["text"] as? String, let assetName = arguments["assetFile"] as? String else{
+            result(FlutterError.init(code: "ArgumentError", message: "Some problem with yours keys.", details: nil));
+            return
+        }
+        self.instagram(text: text, image: assetName)
+    }else {
        result(FlutterMethodNotImplemented)
      }
   }
@@ -129,6 +138,49 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
 
     }
     
+    
+    //Instagram
+    func instagram(text:String,image:String){
+        let key = registrar?.lookupKey(forAsset: image)
+        let topPath = Bundle.main.path(forResource: key, ofType: nil)!
+        var topUmage: UIImage = UIImage(contentsOfFile: topPath)!
+        
+        topUmage = textToImage(drawText: text, inImage: topUmage, atPoint: CGPoint(x: 20, y: 20))
+        
+        guard let instagramUrl = URL(string: "instagram-stories://share") else {
+                  return
+              }
+
+              if UIApplication.shared.canOpenURL(instagramUrl) {
+                  let pasterboardItems = [["com.instagram.sharedSticker.backgroundImage": topUmage as Any]]
+                  UIPasteboard.general.setItems(pasterboardItems)
+                  UIApplication.shared.open(instagramUrl)
+              } else {
+                  // Instagram app is not installed or can't be opened, pop up an alert
+              }
+    }
+    
+    func textToImage(drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+        let textColor = UIColor.black
+        let textFont = UIFont(name: "Helvetica Bold", size: 22)!
+
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+
+        let textFontAttributes = [
+            NSAttributedString.Key.font: textFont,
+            NSAttributedString.Key.foregroundColor: textColor,
+            ] as [NSAttributedString.Key : Any]
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+
+        let rect = CGRect(origin: point, size: image.size)
+        text.draw(in: rect, withAttributes: textFontAttributes)
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage!
+    }
 }
 
 
