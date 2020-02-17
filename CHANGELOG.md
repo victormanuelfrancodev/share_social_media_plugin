@@ -44,3 +44,6 @@
 
 ## 1.1.0
 ** fix readme
+
+## 1.1.1
+** fix stack android

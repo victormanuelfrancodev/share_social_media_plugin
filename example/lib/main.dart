@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,7 +41,13 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             RaisedButton(
               onPressed: () async {
-                await ShareSocialMediaPlugin.shareLine("http://www.google.com");
+                try {
+                  var result = await ShareSocialMediaPlugin.shareLine("http://www.google.com");
+                  print(result);
+                }
+                on PlatformException catch (e) {
+                  print("sucedio un error");
+                }
               },
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),

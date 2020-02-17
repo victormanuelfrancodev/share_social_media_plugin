@@ -28,8 +28,8 @@ class ShareSocialMediaPlugin {
       const MethodChannel('share_social_media_plugin');
 
   //Share Line
-  static Future<void> shareLine(String urlTemp) async {
-    return channel
+  static Future<bool> shareLine(String urlTemp) async {
+    return await channel
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 

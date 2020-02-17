@@ -98,7 +98,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
         logOut(result, call);
         break;
       case METHOD_LINE_SHARE:
-          shareLine((String) call.argument("urlTemp"));
+          shareLine((String) call.argument("urlTemp"),result);
         break;
       case METHOD_INSTAGRAM_SHARE:
         insertInstagram(result,call,(String) call.argument("text"),(String) call.argument("assetFile"));
@@ -112,7 +112,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
   }
 
 //Line
-  void shareLine(String text) {
+  void shareLine(String text,Result result) {
     if (text == null || text.isEmpty()) {
       throw new IllegalArgumentException("Non-empty text expected");
     }
@@ -120,9 +120,11 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
     Intent chooserIntent = Intent.createChooser(browserIntent, null /* dialog title optional */);
     if (activity != null) {
       activity.startActivity(browserIntent);
+      result.error("0","Dont have line install","You need install line");
     }else {
       chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       activity.startActivity(chooserIntent);
+      result.success(true);
     }
   }
 
@@ -308,7 +310,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
   }
 
   private void shareInstagram(String text,String assetFile){
-
+    Log.d("assetFile",assetFile);
     String key = registrar.lookupKeyForAsset(assetFile);
     try {
       AssetFileDescriptor fd = assetManager.openFd(key);
@@ -357,7 +359,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
         canvas.drawBitmap(bmp, 0, 0, paint);
 
         Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, "Testing...".length(), bounds);
+        paint.getTextBounds(text, 0, text.length(), bounds);
         int x = (bmp.getWidth() - bounds.width())/6;
         int y = (bmp.getHeight() + bounds.height())/5;
         canvas.drawText(text, x, y, paint);
