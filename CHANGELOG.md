@@ -47,3 +47,9 @@
 
 ## 1.1.1
 ** fix stack android
+
+# 1.1.2
+** response twitter
+** add background image in iOS for history instagram
+** add fix problem in function android deprecated
+** response future in line

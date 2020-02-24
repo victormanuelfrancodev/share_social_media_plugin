@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:http/src/response.dart';
 import 'dart:io' show Platform;
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -11,9 +13,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final twitterLogin = new ShareSocialMediaPlugin(
-      consumerKey: "YOUR CONSUMER KEY",
-      consumerSecret: 'YOUR CONSUMER SECRECT');
+  final twitterLogin =
+      new ShareSocialMediaPlugin(consumerKey: "Key", consumerSecret: 'Key');
   var titleTwitterButton = "Connect Twitter";
 
   @override
@@ -42,10 +43,10 @@ class _MyAppState extends State<MyApp> {
             RaisedButton(
               onPressed: () async {
                 try {
-                  var result = await ShareSocialMediaPlugin.shareLine("http://www.google.com");
+                  var result = await ShareSocialMediaPlugin.shareLine(
+                      "http://www.google.com");
                   print(result);
-                }
-                on PlatformException catch (e) {
+                } on PlatformException catch (e) {
                   print("sucedio un error");
                 }
               },
@@ -55,22 +56,38 @@ class _MyAppState extends State<MyApp> {
               child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
               onPressed: () async {
                 if (Platform.isAndroid) {
-                  twitterLogin.shareTwitter("conectado desde plugin");
+                  var result =
+                      await twitterLogin.shareTwitter("conectado desde plugin");
+                  print(result);
+                  if (result != null) {
+                    if (result == "success") {
+                      print("success!");
+                    } else {
+                      print("fail");
+                    }
+                  }
                 } else if (Platform.isIOS) {
                   var sessionTwitter = await twitterLogin.currentSessionIOS();
                   var tweet = await twitterLogin.shareTwitteriOS(
                       sessionTwitter["outhToken"],
                       sessionTwitter["oauthTokenSecret"],
-                      "ありがとう",
+                      "test cpmplete future",
                       twitterLogin.consumerKey,
                       twitterLogin.consumerSecret);
-                  print(tweet.body.toString());
+
+                  final response = json.decode(tweet.body);
+                  if (response['text'] != null) {
+                    print("success");
+                  } else {
+                    print("fail");
+                  }
                 }
               },
             ),
             RaisedButton(
               onPressed: () async {
-                await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+                await ShareSocialMediaPlugin.shareInstagram(
+                    "hello", "assets/nofumar.jpg", "assets/logo2323.png");
               },
               child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
             ),

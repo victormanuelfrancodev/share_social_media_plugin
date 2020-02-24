@@ -26,8 +26,8 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
            result(FlutterError.init(code: "ArgumentError", message: "Required argument does not exist.", details: nil));
                                return
         }
-        open(scheme: "https://social-plugins.line.me/lineit/share?url=\(urlT)")
-        result("Ok")
+        open(scheme: "https://social-plugins.line.me/lineit/share?url=\(urlT)",result: result)
+        
      }else if ("getCurrentSessionIOS" == call.method) {
         let arguments = call.arguments as! [String:Any]
               guard let consumerKey = arguments["consumerKey"] as? String, let consumerKeySecrect = arguments["consumerSecret"] as? String else{
@@ -37,29 +37,31 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
        self.getCurrentSession(result, consumerKey: consumerKey, consumerKeySecrect: consumerKeySecrect)
     }else if("shareInstagram" == call.method){
         let arguments = call.arguments as! [String:Any]
-        guard let text = arguments["text"] as? String, let assetName = arguments["assetFile"] as? String else{
+        guard let text = arguments["text"] as? String, let assetName = arguments["assetFile"] as? String, let assetNameBackground = arguments["assetNameBackground"] as? String else{
             result(FlutterError.init(code: "ArgumentError", message: "Some problem with yours keys.", details: nil));
             return
         }
-        self.instagram(text: text, image: assetName)
+        self.instagram(text: text, image: assetName,imageBackground: assetNameBackground)
     }else {
        result(FlutterMethodNotImplemented)
      }
   }
 
 
-   func open(scheme: String) {
+    func open(scheme: String,result: @escaping FlutterResult) {
           if let url = URL(string: scheme) {
             if #available(iOS 10, *) {
                 let options = [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly : false]
               UIApplication.shared.open(url, options: options,
                 completionHandler: {
                   success in
+                    result(true)
                     print("Open \(scheme): \(success.description)")
                })
             } else {
               let success = UIApplication.shared.openURL(url)
               print("Open \(scheme): \(success)")
+              result(true)
             }
           }
         }
@@ -140,10 +142,19 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
     
     
     //Instagram
-    func instagram(text:String,image:String){
+    func instagram(text:String,image:String,imageBackground:String){
         let key = registrar?.lookupKey(forAsset: image)
         let topPath = Bundle.main.path(forResource: key, ofType: nil)!
         var topUmage: UIImage = UIImage(contentsOfFile: topPath)!
+        
+        var topPathBackground = ""
+        var backgroundImage:UIImage? = nil
+        if imageBackground != ""{
+            let ketBackground = registrar?.lookupKey(forAsset: imageBackground)
+            topPathBackground = Bundle.main.path(forResource: ketBackground, ofType: nil)!
+            backgroundImage = UIImage(contentsOfFile: topPathBackground)!
+        }
+        
         
         topUmage = textToImage(drawText: text, inImage: topUmage, atPoint: CGPoint(x: 20, y: 20))
         
@@ -152,8 +163,15 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
               }
 
               if UIApplication.shared.canOpenURL(instagramUrl) {
-                  let pasterboardItems = [["com.instagram.sharedSticker.backgroundImage": topUmage as Any]]
-                  UIPasteboard.general.setItems(pasterboardItems)
+                var pasterboardItems:[[String:Any]]? = nil
+                if (topPathBackground != ""){
+                    pasterboardItems = [["com.instagram.sharedSticker.backgroundImage": backgroundImage as Any, "com.instagram.sharedSticker.stickerImage" : topUmage as Any]]
+                }else{
+                    pasterboardItems = [["com.instagram.sharedSticker.backgroundImage": topUmage as Any]]
+                }
+               
+               
+                  UIPasteboard.general.setItems(pasterboardItems!)
                   UIApplication.shared.open(instagramUrl)
               } else {
                   // Instagram app is not installed or can't be opened, pop up an alert

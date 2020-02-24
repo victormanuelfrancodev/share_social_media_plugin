@@ -101,7 +101,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
           shareLine((String) call.argument("urlTemp"),result);
         break;
       case METHOD_INSTAGRAM_SHARE:
-        insertInstagram(result,call,(String) call.argument("text"),(String) call.argument("assetFile"));
+        insertInstagram(result,call,(String) call.argument("text"),(String) call.argument("assetFile"),(String) call.argument("assetNameBackground"));
         break;
       case METHOD_INSTAGRA_SHARE_ALBUM:
         insertInstagramAlbums(result,call);
@@ -122,9 +122,14 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
       activity.startActivity(browserIntent);
       result.error("0","Dont have line install","You need install line");
     }else {
-      chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      activity.startActivity(chooserIntent);
-      result.success(true);
+      try
+      {
+        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(chooserIntent);
+        result.success(true);
+      }catch (Exception e){
+        result.error("1","Error to open Line","Some error happened");
+      }
     }
   }
 
@@ -241,7 +246,7 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
 
   ///INSTAGRAM
 
-  private void insertInstagram(Result result, MethodCall call,String text,String assetFile){
+  private void insertInstagram(Result result, MethodCall call,String text,String assetFile,String backgroundFile){
 
     if (!appInstalledOrNot()) {
       Dialog dialog=new Dialog(activity);
@@ -309,7 +314,12 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
       }
   }
 
+  private void shareInstagramSticker(String text,String assetFile){
+
+  }
+
   private void shareInstagram(String text,String assetFile){
+
     Log.d("assetFile",assetFile);
     String key = registrar.lookupKeyForAsset(assetFile);
     try {
@@ -318,15 +328,17 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
       Bitmap bitmap1 = BitmapFactory.decodeStream(is);
       Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
       shareIntent.setType("image/*");
-
+      shareIntent.putExtra(Intent.EXTRA_TEXT, "holaaaaa");
       shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(text,bitmap1,context));
+
+
       shareIntent.setPackage("com.instagram.android");
-      Intent chooserIntent = Intent.createChooser(shareIntent, null);
+      Intent chooserIntent = Intent.createChooser(shareIntent, "share someee");
       try {
         if (activity != null) {
           activity.startActivity(shareIntent);
         } else {
-          chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          chooserIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
           activity.startActivity(chooserIntent);
         }
       } catch (Exception e) {
@@ -371,8 +383,6 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
         e.printStackTrace();
       }
     }catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
       e.printStackTrace();
     }
     return bmpUri;

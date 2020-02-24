@@ -304,7 +304,7 @@ class TwitterClient {
     print(resp.body.toString());
   }
 
-  Future<bool> tweetPromo(String status) async {
+  Future<String> tweetPromo(String status) async {
     String base = '/1.1/statuses/update.json';
     var order = await _twitterPost(base, [
       ["status", status]
@@ -312,10 +312,10 @@ class TwitterClient {
 
     Map parsed = json.decode(order.body);
     var tweet = TweetStatuses.fromJson(parsed);
-    if (tweet.text != null) {
-      return true;
+    if (parsed['text'] != null) {
+      return "success";
     } else {
-      return false;
+      return "fail";
     }
   }
 

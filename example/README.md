@@ -36,16 +36,40 @@ final twitterLogin = new ShareSocialMediaPlugin(
       consumerKey: "consumerKey",
       consumerSecret: 'consumerSecret');
 
-          onPressed: () async{
-                      if (Platform.isAndroid) {
-                        twitterLogin.shareTwitter("ありがとう");
-                      } else if (Platform.isIOS) {
-                        var sessionTwitter = await twitterLogin.currentSessionIOS();
-                        var tweet = await twitterLogin.shareTwitteriOS(sessionTwitter["outhToken"], sessionTwitter["oauthTokenSecret"],
-                            "ありがとう", twitterLogin.consumerKey, twitterLogin.consumerSecret);
-                        print(tweet.body.toString());
-                      }
-                    },
+             RaisedButton(
+                        child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
+                        onPressed: () async {
+                        //Platform in Android
+                          if (Platform.isAndroid) {
+                            var result = await twitterLogin.shareTwitter("conectado desde plugin");
+                            print(result);
+                            if(result != null){
+                              if (result == "success"){
+                                print("success!");
+                              }else{
+                                print("fail");
+                              }
+                            }
+                          }
+                          //Platform in iOS
+                          else if (Platform.isIOS) {
+                            var sessionTwitter = await twitterLogin.currentSessionIOS();
+                            var tweet = await twitterLogin.shareTwitteriOS(
+                                sessionTwitter["outhToken"],
+                                sessionTwitter["oauthTokenSecret"],
+                                "test cpmplete future",
+                                twitterLogin.consumerKey,
+                                twitterLogin.consumerSecret);
+
+                            final response = json.decode(tweet.body);
+                            if (response['text'] != null) {
+                               print("success");
+                            }else{
+                              print("fail");
+                            }
+                          }
+                        },
+                      ),
 ```
 **Note For iOS Twitter
 In plist
@@ -140,7 +164,8 @@ android/app/src/main/AndroidManifest.xml
 ```dart
  RaisedButton(
               onPressed: () async {
-                  await ShareSocialMediaPlugin.shareInstagram("hello","assets/nofumar.jpg");
+              //shareInstagram("message","image","background");
+                  await ShareSocialMediaPlugin.shareInstagram("hello","assets/my_image.jpg","assets/background");
               },
               child: Text('Share in Instagram', style: TextStyle(fontSize: 20)),
             )
@@ -167,11 +192,14 @@ Thank you!! :beer::beer::beer::beer::beer::beer:
 
 まりもさん
 
-ありがとう Driglo :sparkles:
-
 まさきさん
 
 アキコさん
+
+
+ありがとう Driglo :sparkles:
+
+
 
 Thank you for your repo
 https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java

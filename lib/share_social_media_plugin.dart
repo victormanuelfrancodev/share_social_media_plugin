@@ -33,9 +33,13 @@ class ShareSocialMediaPlugin {
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
 
-  static Future<void> shareInstagram(String text, String assetFile) async {
-    return channel.invokeMethod('shareInstagram',
-        <String, dynamic>{'text': text, 'assetFile': assetFile});
+  static Future<void> shareInstagram(
+      String text, String assetFile, String assetNameBackground) async {
+    return channel.invokeMethod('shareInstagram', <String, dynamic>{
+      'text': text,
+      'assetFile': assetFile,
+      'assetNameBackground': assetNameBackground
+    });
   }
 
   static Future<void> shareInstagramAlbum() async {
@@ -43,13 +47,15 @@ class ShareSocialMediaPlugin {
   }
 
   //Share Twitter
-  void shareTwitter(String urlTemp) async {
+  Future<String> shareTwitter(String urlTemp) async {
     TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
     if (TwitterClient.twitter == null) {
       TwitterClient();
+      return "";
     } else {
       var tc = TwitterClient();
-      tc.tweet(urlTemp);
+      // return tc.tweet(urlTemp);
+      return tc.tweetPromo(urlTemp);
     }
   }
 
@@ -88,7 +94,7 @@ class ShareSocialMediaPlugin {
     oauthList.sort();
     String oauthSig =
         'oauth_signature="${Uri.encodeComponent(generateSignature("POST", "https://api.twitter.com$base", oauthList, tsk, csk))}"';
-
+    print(oauthSig);
     return await http
         .post(new Uri.https("api.twitter.com", base, paramMap), headers: {
       "Authorization":
