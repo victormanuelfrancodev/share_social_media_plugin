@@ -26,7 +26,7 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
            result(FlutterError.init(code: "ArgumentError", message: "Required argument does not exist.", details: nil));
                                return
         }
-        open(scheme: "https://social-plugins.line.me/lineit/share?url=\(urlT)",result: result)
+        open(scheme: urlT,result: result)
         
      }else if ("getCurrentSessionIOS" == call.method) {
         let arguments = call.arguments as! [String:Any]
@@ -41,6 +41,7 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
             result(FlutterError.init(code: "ArgumentError", message: "Some problem with yours keys.", details: nil));
             return
         }
+    
         self.instagram(text: text, image: assetName,imageBackground: assetNameBackground)
     }else {
        result(FlutterMethodNotImplemented)
@@ -49,7 +50,7 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
 
 
     func open(scheme: String,result: @escaping FlutterResult) {
-          if let url = URL(string: scheme) {
+          /*if let url = URL(string: scheme) {
             if #available(iOS 10, *) {
                 let options = [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly : false]
               UIApplication.shared.open(url, options: options,
@@ -63,7 +64,36 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
               print("Open \(scheme): \(success)")
               result(true)
             }
+          }*/
+        
+        let urlscheme: String = "line://msg/text"
+        let message = scheme
+
+        // line:/msg/text/(メッセージ)
+        let urlstring = urlscheme + "/" + message
+
+        // URLエンコード
+        guard let  encodedURL = urlstring.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else {
+          return
+        }
+
+        // URL作成
+        guard let url = URL(string: encodedURL) else {
+          return
+        }
+
+        if UIApplication.shared.canOpenURL(url) {
+          if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: { (succes) in
+              //  LINEアプリ表示成功
+            })
+          }else{
+            UIApplication.shared.openURL(url)
           }
+        }else {
+          // LINEアプリが無い場合
+         
+        }
         }
 
 
@@ -174,6 +204,7 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
                   UIPasteboard.general.setItems(pasterboardItems!)
                   UIApplication.shared.open(instagramUrl)
               } else {
+                print("no esta instalado")
                   // Instagram app is not installed or can't be opened, pop up an alert
               }
     }

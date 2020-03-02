@@ -11,10 +11,11 @@
 			</array>
 		</dict>
 	</array>
-	 <key>LSApplicationQueriesSchemes</key>
-        <array>
-            <string>instagram-stories</string>
-        </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>line</string>
+		<string>instagram-stories</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
