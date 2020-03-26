@@ -18,7 +18,6 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/build" />
-      <excludeFolder url="file://$MODULE_DIR$/example/ios/Flutter/App.framework/flutter_assets/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/build" />
