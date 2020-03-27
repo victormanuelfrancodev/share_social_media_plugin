@@ -14,8 +14,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final twitterLogin = ShareSocialMediaPlugin(
-      consumerKey: '',
-      consumerSecret: '');
+      consumerKey: "3WGlyun7pWXYP6s5GjFiaCFCI",
+      consumerSecret: 'pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT');
   var titleTwitterButton = "Connect Twitter";
 
   @override

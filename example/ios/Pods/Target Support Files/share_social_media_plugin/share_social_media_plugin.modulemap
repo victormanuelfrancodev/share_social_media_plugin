@@ -1,0 +1,6 @@
+framework module share_social_media_plugin {
+  umbrella header "share_social_media_plugin-umbrella.h"
+
+  export *
+  module * { export * }
+}

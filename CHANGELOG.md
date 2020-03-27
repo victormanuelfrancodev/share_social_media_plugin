@@ -53,3 +53,6 @@
 ** add background image in iOS for history instagram
 ** add fix problem in function android deprecated
 ** response future in line
+
+#1.1.5
+** update flutter_twitter_ab#-installing-tab- 1.0.1 > 1.1.1
