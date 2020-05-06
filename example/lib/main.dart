@@ -13,10 +13,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final twitterLogin = ShareSocialMediaPlugin(
-      consumerKey: "3WGlyun7pWXYP6s5GjFiaCFCI",
-      consumerSecret: 'pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT');
+  final twitterLogin =
+      ShareSocialMediaPlugin(consumerKey: "", consumerSecret: '');
   var titleTwitterButton = "Connect Twitter";
+  var outhTokenTwitter;
+  var oauthTokenSecretTwitter;
 
   @override
   void initState() {
@@ -25,15 +26,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    twitterLogin.isSessionActive.then((value) {
-      if (value) {
-        titleTwitterButton = "Share in twitter";
-      } else {
-        titleTwitterButton = "Connect to Twitter";
-      }
-      setState(() {});
-    });
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -54,33 +46,48 @@ class _MyAppState extends State<MyApp> {
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),
             RaisedButton(
-              child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
+              child: Text('Share in Twitter', style: TextStyle(fontSize: 20)),
               onPressed: () async {
                 if (Platform.isAndroid) {
-                  var result =
-                      await twitterLogin.shareTwitter("conectado desde plugin");
-                  print(result);
-                  if (result != null) {
-                    if (result == "success") {
-                      print("success!");
+                  twitterLogin.connectedInTwitter().then((value) async {
+                    if (value) {
+                      var response =
+                          await twitterLogin.shareTwitter("code tesr");
+                      if (response['text'] != null) {
+                        //Success
+                        print(response);
+                      } else {
+                        //Fail
+                        print(response);
+                      }
                     } else {
-                      print("fail");
+                      //Connect your account
+                      twitterLogin.connectTwitter();
                     }
-                  }
+                  });
                 } else if (Platform.isIOS) {
-                  var sessionTwitter = await twitterLogin.currentSessionIOS();
-                  var tweet = await twitterLogin.shareTwitteriOS(
-                      sessionTwitter["outhToken"],
-                      sessionTwitter["oauthTokenSecret"],
-                      "test cpmplete future",
-                      twitterLogin.consumerKey,
-                      twitterLogin.consumerSecret);
+                  if (outhTokenTwitter != null) {
+                    var tweet = await twitterLogin.shareTwitteriOS(
+                        outhTokenTwitter,
+                        oauthTokenSecretTwitter,
+                        "test6",
+                        twitterLogin.consumerKey,
+                        twitterLogin.consumerSecret);
 
-                  final response = json.decode(tweet.body);
-                  if (response['text'] != null) {
-                    print("success");
+                    final response = json.decode(tweet.body);
+                    if (response['text'] != null) {
+                      //Success
+                      print(tweet.body);
+                    } else {
+                      //Fail
+                      print(tweet.body);
+                    }
                   } else {
-                    print("fail");
+                    //Connect twitter
+                    var sessionTwitter = await twitterLogin.currentSessionIOS();
+                    outhTokenTwitter = sessionTwitter["outhToken"];
+                    oauthTokenSecretTwitter =
+                        sessionTwitter["oauthTokenSecret"];
                   }
                 }
               },

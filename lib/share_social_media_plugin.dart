@@ -47,16 +47,19 @@ class ShareSocialMediaPlugin {
   }
 
   //Share Twitter
-  Future<String> shareTwitter(String urlTemp) async {
+  connectTwitter(){
     TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
-    if (TwitterClient.twitter == null) {
-      TwitterClient();
-      return "";
-    } else {
-      var tc = TwitterClient();
-      // return tc.tweet(urlTemp);
-      return tc.tweetPromo(urlTemp);
-    }
+    TwitterClient();
+  }
+
+  Future<bool> connectedInTwitter() async{
+    return (TwitterClient.twitter != null);
+  }
+
+  Future<Map> shareTwitter(String urlTemp) async {
+    TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
+    var tc = TwitterClient();
+    return tc.tweetPromo(urlTemp);
   }
 
   Future<http.Response> shareTwitteriOS(
@@ -126,9 +129,9 @@ class ShareSocialMediaPlugin {
     return channel.invokeMethod('getCurrentSessionIOS', _keys);
   }
 
-  Future<bool> get isSessionActive async => await currentSession != null;
+   Future<bool> get isSessionActive async => await currentSession != null;
 
-  Future<TwitterSession> get currentSession async {
+   Future<TwitterSession> get currentSession async {
     final Map<dynamic, dynamic> session =
         await channel.invokeMethod('getCurrentSession', _keys);
 
@@ -139,7 +142,7 @@ class ShareSocialMediaPlugin {
     return new TwitterSession.fromMap(session.cast<String, dynamic>());
   }
 
-  Future<TwitterLoginResult> authorize() async {
+   Future<TwitterLoginResult> authorize() async {
     final Map<dynamic, dynamic> result =
         await channel.invokeMethod('authorize', _keys);
 

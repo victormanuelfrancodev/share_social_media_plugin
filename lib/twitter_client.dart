@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:random_string/random_string.dart';
 import 'package:share_social_media_plugin/share_social_media_plugin.dart';
 import 'TweetModel/tweet.dart';
-import 'TweetModel/tweet_statuses.dart';
 import 'TweetModel/user.dart';
 
 class TwitterClient {
@@ -304,19 +303,13 @@ class TwitterClient {
     print(resp.body.toString());
   }
 
-  Future<String> tweetPromo(String status) async {
+  Future<Map> tweetPromo(String status) async {
     String base = '/1.1/statuses/update.json';
     var order = await _twitterPost(base, [
       ["status", status]
     ]);
-
     Map parsed = json.decode(order.body);
-    var tweet = TweetStatuses.fromJson(parsed);
-    if (parsed['text'] != null) {
-      return "success";
-    } else {
-      return "fail";
-    }
+    return parsed;
   }
 
   Future<bool> tweetResponse(String status) async {

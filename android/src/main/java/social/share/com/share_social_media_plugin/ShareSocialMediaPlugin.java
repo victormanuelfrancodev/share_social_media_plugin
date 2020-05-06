@@ -17,6 +17,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -254,6 +255,9 @@ public class ShareSocialMediaPlugin extends Callback<TwitterSession> implements 
       dialog.show();
       return;
     }
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
+
     shareInstagram(text,assetFile); // share image from gallery
   }
 

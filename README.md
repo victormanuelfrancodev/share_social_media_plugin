@@ -36,40 +36,51 @@ final twitterLogin = new ShareSocialMediaPlugin(
       consumerKey: "consumerKey",
       consumerSecret: 'consumerSecret');
 
-             RaisedButton(
-                        child: Text(titleTwitterButton, style: TextStyle(fontSize: 20)),
-                        onPressed: () async {
-                        //Platform in Android
-                          if (Platform.isAndroid) {
-                            var result = await twitterLogin.shareTwitter("conectado desde plugin");
-                            print(result);
-                            if(result != null){
-                              if (result == "success"){
-                                print("success!");
-                              }else{
-                                print("fail");
-                              }
-                            }
-                          }
-                          //Platform in iOS
-                          else if (Platform.isIOS) {
-                            var sessionTwitter = await twitterLogin.currentSessionIOS();
-                            var tweet = await twitterLogin.shareTwitteriOS(
-                                sessionTwitter["outhToken"],
-                                sessionTwitter["oauthTokenSecret"],
-                                "test cpmplete future",
-                                twitterLogin.consumerKey,
-                                twitterLogin.consumerSecret);
+           RaisedButton(
+                         child: Text('Share in Twitter', style: TextStyle(fontSize: 20)),
+                         onPressed: () async {
+                           if (Platform.isAndroid) {
+                             twitterLogin.connectedInTwitter().then((value) async{
+                               if(value){
+                                 var response = await twitterLogin.shareTwitter("code tesr");
+                                 if (response['text'] != null) {
+                                   //Success
+                                   print(response);
+                                 } else {
+                                   //Fail
+                                   print(response);
+                                 }
+                               }else{
+                                 //Connect your account
+                                 twitterLogin.connectTwitter();
+                               }
+                             });
+                           } else if (Platform.isIOS) {
+                             if (outhTokenTwitter != null){
+                               var tweet = await twitterLogin.shareTwitteriOS(
+                                   outhTokenTwitter,
+                                   oauthTokenSecretTwitter,
+                                   "test6",
+                                   twitterLogin.consumerKey,
+                                   twitterLogin.consumerSecret);
 
-                            final response = json.decode(tweet.body);
-                            if (response['text'] != null) {
-                               print("success");
-                            }else{
-                              print("fail");
-                            }
-                          }
-                        },
-                      ),
+                               final response = json.decode(tweet.body);
+                               if (response['text'] != null) {
+                                 //Success
+                                 print(tweet.body);
+                               } else {
+                                 //Fail
+                                 print(tweet.body);
+                               }
+                             }else{
+                               //Connect twitter
+                               var sessionTwitter = await twitterLogin.currentSessionIOS();
+                               outhTokenTwitter = sessionTwitter["outhToken"];
+                               oauthTokenSecretTwitter = sessionTwitter["oauthTokenSecret"];
+                             }
+                           }
+                         },
+                       ),
 ```
 **Note For iOS Twitter
 In plist

@@ -112,7 +112,6 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
        
             DispatchQueue.main.async {
                              oauth1swift.authorizeURLHandler = self.getURLHandler()
-                            
                          }
                                  oauth1swift.authorize(withCallbackURL: URL(string: "TwitterLoginSampleOAuth://")!,
                                                       completionHandler:
@@ -133,8 +132,6 @@ public class SwiftShareSocialMediaPlugin: NSObject, FlutterPlugin {
                                          }
                                  }
                                  )
-        
-        
       }
     
     func initializeTwitterInstance(call:FlutterMethodCall!) {

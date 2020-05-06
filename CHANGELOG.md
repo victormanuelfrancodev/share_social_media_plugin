@@ -56,3 +56,10 @@
 
 #1.1.5
 ** update flutter_twitter_ab#-installing-tab- 1.0.1 > 1.1.1
+
+#1.1.6
+**Fixed Android N FileUriExposedException: exposed beyond app through ClipData.Item.getUri()
+
+#1.1.7
+**Fixed session in Twitter iOS/Android
+**Add Response Json in Twitter iOS/Android
