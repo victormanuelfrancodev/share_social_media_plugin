@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:random_string/random_string.dart';
 import 'package:share_social_media_plugin/twitter_client.dart';
 
+import 'TweetModel/user.dart';
+
 class ShareSocialMediaPlugin {
   ShareSocialMediaPlugin({
     @required this.consumerKey,
@@ -42,11 +44,18 @@ class ShareSocialMediaPlugin {
     });
   }
 
+
   static Future<void> shareInstagramAlbum() async {
     return channel.invokeMethod('shareInstagramAlbum');
   }
 
   //Share Twitter
+  Future <String> getProfileImage()async{
+    TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
+    var tc = TwitterClient();
+    User user = await tc.getProfile();
+    return  user.profileUrl;
+  }
   connectTwitter(){
     TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
     TwitterClient();
@@ -57,9 +66,9 @@ class ShareSocialMediaPlugin {
   }
 
   Future<Map> shareTwitter(String urlTemp) async {
-    TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
-    var tc = TwitterClient();
-    return tc.tweetPromo(urlTemp);
+      TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
+      var tc = TwitterClient();
+      return tc.tweetPromo(urlTemp);
   }
 
   Future<http.Response> shareTwitteriOS(

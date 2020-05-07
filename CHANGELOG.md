@@ -63,3 +63,7 @@
 #1.1.7
 **Fixed session in Twitter iOS/Android
 **Add Response Json in Twitter iOS/Android
+
+#1.1.8
+**Fixed example
+**Add image profile Twitter only Android

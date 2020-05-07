@@ -5,6 +5,7 @@ import 'package:share_social_media_plugin/share_social_media_plugin.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -14,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final twitterLogin =
-      ShareSocialMediaPlugin(consumerKey: "", consumerSecret: '');
+      ShareSocialMediaPlugin(consumerKey: "3WGlyun7pWXYP6s5GjFiaCFCI", consumerSecret: 'pyNN593fU4hHOvSEcatcXAo1epk5pv1f2T6rAYMuXqyZgMH0OT');
   var titleTwitterButton = "Connect Twitter";
   var outhTokenTwitter;
   var oauthTokenSecretTwitter;
@@ -26,6 +27,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    twitterLogin.isSessionActive.then((value) {
+      print(value);
+    });
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -46,23 +50,28 @@ class _MyAppState extends State<MyApp> {
               child: Text('Share in Line', style: TextStyle(fontSize: 20)),
             ),
             RaisedButton(
+             child: Text('Get image profile Twitter only android'),
+              onPressed: () async{
+                print(await twitterLogin.getProfileImage());
+              },
+            ),
+            RaisedButton(
               child: Text('Share in Twitter', style: TextStyle(fontSize: 20)),
               onPressed: () async {
                 if (Platform.isAndroid) {
-                  twitterLogin.connectedInTwitter().then((value) async {
-                    if (value) {
+                  twitterLogin.isSessionActive.then((isConnected) async{
+                    if (!isConnected){
+                      twitterLogin.connectTwitter();
+                    }
+                    else{
                       var response =
-                          await twitterLogin.shareTwitter("code tesr");
+                      await twitterLogin.shareTwitter("example test in android");
                       if (response['text'] != null) {
                         //Success
-                        print(response);
+
                       } else {
                         //Fail
-                        print(response);
                       }
-                    } else {
-                      //Connect your account
-                      twitterLogin.connectTwitter();
                     }
                   });
                 } else if (Platform.isIOS) {

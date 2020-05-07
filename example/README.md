@@ -36,51 +36,52 @@ final twitterLogin = new ShareSocialMediaPlugin(
       consumerKey: "consumerKey",
       consumerSecret: 'consumerSecret');
 
-           RaisedButton(
-                         child: Text('Share in Twitter', style: TextStyle(fontSize: 20)),
-                         onPressed: () async {
-                           if (Platform.isAndroid) {
-                             twitterLogin.connectedInTwitter().then((value) async{
-                               if(value){
-                                 var response = await twitterLogin.shareTwitter("code tesr");
-                                 if (response['text'] != null) {
-                                   //Success
-                                   print(response);
-                                 } else {
-                                   //Fail
-                                   print(response);
-                                 }
-                               }else{
-                                 //Connect your account
-                                 twitterLogin.connectTwitter();
-                               }
-                             });
-                           } else if (Platform.isIOS) {
-                             if (outhTokenTwitter != null){
-                               var tweet = await twitterLogin.shareTwitteriOS(
-                                   outhTokenTwitter,
-                                   oauthTokenSecretTwitter,
-                                   "test6",
-                                   twitterLogin.consumerKey,
-                                   twitterLogin.consumerSecret);
+            RaisedButton(
+                     child: Text('Share in Twitter', style: TextStyle(fontSize: 20)),
+                     onPressed: () async {
+                       if (Platform.isAndroid) {
+                         twitterLogin.isSessionActive.then((isConnected) async{
+                           if (!isConnected){
+                             twitterLogin.connectTwitter();
+                           }
+                           else{
+                             var response =
+                             await twitterLogin.shareTwitter("example test in android");
+                             if (response['text'] != null) {
+                               //Success
 
-                               final response = json.decode(tweet.body);
-                               if (response['text'] != null) {
-                                 //Success
-                                 print(tweet.body);
-                               } else {
-                                 //Fail
-                                 print(tweet.body);
-                               }
-                             }else{
-                               //Connect twitter
-                               var sessionTwitter = await twitterLogin.currentSessionIOS();
-                               outhTokenTwitter = sessionTwitter["outhToken"];
-                               oauthTokenSecretTwitter = sessionTwitter["oauthTokenSecret"];
+                             } else {
+                               //Fail
                              }
                            }
-                         },
-                       ),
+                         });
+                       } else if (Platform.isIOS) {
+                         if (outhTokenTwitter != null) {
+                           var tweet = await twitterLogin.shareTwitteriOS(
+                               outhTokenTwitter,
+                               oauthTokenSecretTwitter,
+                               "test6",
+                               twitterLogin.consumerKey,
+                               twitterLogin.consumerSecret);
+
+                           final response = json.decode(tweet.body);
+                           if (response['text'] != null) {
+                             //Success
+                             print(tweet.body);
+                           } else {
+                             //Fail
+                             print(tweet.body);
+                           }
+                         } else {
+                           //Connect twitter
+                           var sessionTwitter = await twitterLogin.currentSessionIOS();
+                           outhTokenTwitter = sessionTwitter["outhToken"];
+                           oauthTokenSecretTwitter =
+                               sessionTwitter["oauthTokenSecret"];
+                         }
+                       }
+                     },
+                   ),
 ```
 **Note For iOS Twitter
 In plist
