@@ -197,21 +197,5 @@ In your plist add
 
 Thank you!! :beer::beer::beer::beer::beer::beer:
 
-:sparkling_heart:
-ありがとうございます
-
-おけさん
-
-まりもさん
-
-まさきさん
-
-アキコさん
-
-
-ありがとう Driglo :sparkles:
-
-
-
 Thank you for your repo
 https://github.com/bodnarrr/flutter_twitter_login/blob/master/android/src/main/java/com/bodnarrr/fluttertwitterlogin/fluttertwitterlogin/TwitterLoginPlugin.java
