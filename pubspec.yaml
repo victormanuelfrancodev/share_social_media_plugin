@@ -14,7 +14,7 @@ dependencies:
   random_string: ^2.0.1
   http: ^0.12.0+1
   crypto: ^2.0.6
-  intl: ^0.16.1
+  intl:
 
 dev_dependencies:
   flutter_test:
