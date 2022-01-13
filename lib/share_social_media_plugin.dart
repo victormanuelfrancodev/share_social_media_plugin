@@ -11,8 +11,8 @@ import 'TweetModel/user.dart';
 
 class ShareSocialMediaPlugin {
   ShareSocialMediaPlugin({
-    @required this.consumerKey,
-    @required this.consumerSecret,
+    required this.consumerKey,
+    required this.consumerSecret,
   })  : assert(consumerKey != null && consumerKey.isNotEmpty,
             'Consumer key may not be null or empty.'),
         assert(consumerSecret != null && consumerSecret.isNotEmpty,
@@ -22,15 +22,15 @@ class ShareSocialMediaPlugin {
           'consumerSecret': consumerSecret,
         };
 
-  final String consumerKey;
-  final String consumerSecret;
-  final Map<String, String> _keys;
+  final String? consumerKey;
+  final String? consumerSecret;
+  final Map<String, String?> _keys;
 
   static const MethodChannel channel =
       const MethodChannel('share_social_media_plugin');
 
   //Share Line
-  static Future<bool> shareLine(String urlTemp) async {
+  static Future<bool?> shareLine(String urlTemp) async {
     return await channel
         .invokeMethod('shareLine', <String, dynamic>{'urlTemp': urlTemp});
   }
@@ -53,7 +53,7 @@ class ShareSocialMediaPlugin {
   Future <String> getProfileImage()async{
     TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
     var tc = TwitterClient();
-    User user = await tc.getProfile();
+    User user = await (tc.getProfile() as FutureOr<User>);
     return  user.profileUrl;
   }
   connectTwitter(){
@@ -65,7 +65,7 @@ class ShareSocialMediaPlugin {
     return (TwitterClient.twitter != null);
   }
 
-  Future<Map> shareTwitter(String urlTemp) async {
+  Future<Map?> shareTwitter(String urlTemp) async {
       TwitterClient.setKeys(this.consumerKey, this.consumerSecret);
       var tc = TwitterClient();
       return tc.tweetPromo(urlTemp);
@@ -134,14 +134,14 @@ class ShareSocialMediaPlugin {
   }
 
   //Login Twitter
-  Future<Map<dynamic, dynamic>> currentSessionIOS() async {
+  Future<Map<dynamic, dynamic>?> currentSessionIOS() async {
     return channel.invokeMethod('getCurrentSessionIOS', _keys);
   }
 
    Future<bool> get isSessionActive async => await currentSession != null;
 
-   Future<TwitterSession> get currentSession async {
-    final Map<dynamic, dynamic> session =
+   Future<TwitterSession?> get currentSession async {
+    final Map<dynamic, dynamic>? session =
         await channel.invokeMethod('getCurrentSession', _keys);
 
     if (session == null) {
@@ -153,7 +153,7 @@ class ShareSocialMediaPlugin {
 
    Future<TwitterLoginResult> authorize() async {
     final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('authorize', _keys);
+        await (channel.invokeMethod('authorize', _keys) as FutureOr<Map<dynamic, dynamic>>);
 
     return new TwitterLoginResult._(result.cast<String, dynamic>());
   }
@@ -164,12 +164,12 @@ class ShareSocialMediaPlugin {
 
 //Twitter Session
 class TwitterSession {
-  final String secret;
-  final String token;
+  final String? secret;
+  final String? token;
 
-  final String userId;
+  final String? userId;
 
-  final String username;
+  final String? username;
 
   TwitterSession.fromMap(Map<String, dynamic> map)
       : secret = map['secret'],
@@ -208,8 +208,8 @@ enum TwitterLoginStatus {
 
 class TwitterLoginResult {
   final TwitterLoginStatus status;
-  final TwitterSession session;
-  final String errorMessage;
+  final TwitterSession? session;
+  final String? errorMessage;
 
   TwitterLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status'], map['errorMessage']),
@@ -220,12 +220,12 @@ class TwitterLoginResult {
             : null,
         errorMessage = map['errorMessage'];
 
-  static TwitterLoginStatus _parseStatus(String status, String errorMessage) {
+  static TwitterLoginStatus _parseStatus(String? status, String? errorMessage) {
     switch (status) {
       case 'loggedIn':
         return TwitterLoginStatus.loggedIn;
       case 'error':
-        if (errorMessage.contains('canceled') ||
+        if (errorMessage!.contains('canceled') ||
             errorMessage.contains('cancelled')) {
           return TwitterLoginStatus.cancelledByUser;
         }

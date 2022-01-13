@@ -1,13 +1,13 @@
 class User {
-  int id;
+  int? id;
   String tag = "loading";
-  String name = "Albatross User";
+  String? name = "Albatross User";
   String profileUrl = "";
   String backgroundUrl = "";
-  String quote;
-  int tweetCount;
-  int followerCount;
-  int followingCount;
+  String? quote;
+  int? tweetCount;
+  int? followerCount;
+  int? followingCount;
 
   /// Create user from JSON map
   ///

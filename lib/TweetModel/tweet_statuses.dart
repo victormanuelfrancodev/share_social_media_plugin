@@ -8,31 +8,31 @@ TweetStatuses tweetStatusesFromJson(String str) =>
 String tweetStatusesToJson(TweetStatuses data) => json.encode(data.toJson());
 
 class TweetStatuses {
-  String createdAt;
-  String idStr;
-  String text;
-  String source;
-  bool truncated;
+  String? createdAt;
+  String? idStr;
+  String? text;
+  String? source;
+  bool? truncated;
   dynamic inReplyToStatusId;
   dynamic inReplyToStatusIdStr;
   dynamic inReplyToUserId;
   dynamic inReplyToUserIdStr;
   dynamic inReplyToScreenName;
-  User user;
+  User? user;
   dynamic geo;
   dynamic coordinates;
   dynamic place;
   dynamic contributors;
-  bool isQuoteStatus;
-  int quoteCount;
-  int replyCount;
-  int retweetCount;
-  int favoriteCount;
-  bool favorited;
-  bool retweeted;
-  bool possiblySensitive;
-  String filterLevel;
-  String lang;
+  bool? isQuoteStatus;
+  int? quoteCount;
+  int? replyCount;
+  int? retweetCount;
+  int? favoriteCount;
+  bool? favorited;
+  bool? retweeted;
+  bool? possiblySensitive;
+  String? filterLevel;
+  String? lang;
 
   TweetStatuses({
     this.createdAt,
@@ -118,11 +118,11 @@ class TweetStatuses {
 }
 
 class Url {
-  String url;
-  String expandedUrl;
-  String displayUrl;
-  List<int> indices;
-  Unwound unwound;
+  String? url;
+  String? expandedUrl;
+  String? displayUrl;
+  List<int>? indices;
+  Unwound? unwound;
 
   Url({
     this.url,
@@ -145,16 +145,16 @@ class Url {
         "url": url,
         "expanded_url": expandedUrl,
         "display_url": displayUrl,
-        "indices": List<dynamic>.from(indices.map((x) => x)),
-        "unwound": unwound == null ? null : unwound.toJson(),
+        "indices": List<dynamic>.from(indices!.map((x) => x)),
+        "unwound": unwound == null ? null : unwound!.toJson(),
       };
 }
 
 class Unwound {
-  String url;
-  int status;
-  String title;
-  String description;
+  String? url;
+  int? status;
+  String? title;
+  String? description;
 
   Unwound({
     this.url,
@@ -179,7 +179,7 @@ class Unwound {
 }
 
 class Derived {
-  List<Location> locations;
+  List<Location>? locations;
 
   Derived({
     this.locations,
@@ -191,18 +191,18 @@ class Derived {
       );
 
   Map<String, dynamic> toJson() => {
-        "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
+        "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
       };
 }
 
 class Location {
-  String country;
-  String countryCode;
-  String locality;
-  String region;
-  String subRegion;
-  String fullName;
-  Geo geo;
+  String? country;
+  String? countryCode;
+  String? locality;
+  String? region;
+  String? subRegion;
+  String? fullName;
+  Geo? geo;
 
   Location({
     this.country,
@@ -231,13 +231,13 @@ class Location {
         "region": region,
         "sub_region": subRegion,
         "full_name": fullName,
-        "geo": geo.toJson(),
+        "geo": geo!.toJson(),
       };
 }
 
 class Geo {
-  List<double> coordinates;
-  String type;
+  List<double>? coordinates;
+  String? type;
 
   Geo({
     this.coordinates,
@@ -250,7 +250,7 @@ class Geo {
       );
 
   Map<String, dynamic> toJson() => {
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
         "type": type,
       };
 }

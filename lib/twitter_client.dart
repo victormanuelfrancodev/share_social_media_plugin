@@ -9,10 +9,10 @@ import 'TweetModel/user.dart';
 
 class TwitterClient {
   static final TwitterClient _singleton = new TwitterClient._internal();
-  static TwitterSession twitter;
-  static User _profile;
-  static String _consumerKey;
-  static String _secretKey;
+  static TwitterSession? twitter;
+  static User? _profile;
+  static String? _consumerKey;
+  static String? _secretKey;
 
   factory TwitterClient() {
     _startSession();
@@ -22,8 +22,7 @@ class TwitterClient {
   TwitterClient._internal();
 
   static Future<int> _startSession() async {
-    var twitterLogin = ShareSocialMediaPlugin(
-        consumerKey: _consumerKey, consumerSecret: _secretKey);
+    var twitterLogin = ShareSocialMediaPlugin(consumerKey: _consumerKey, consumerSecret: _secretKey);
     var sessionData = await twitterLogin.currentSession;
 
     if (sessionData == null) {
@@ -35,21 +34,20 @@ class TwitterClient {
     return 0;
   }
 
-  static void setKeys(String consumerKey, String secretKey) {
+  static void setKeys(String? consumerKey, String? secretKey) {
     _consumerKey = consumerKey;
     _secretKey = secretKey;
   }
 
-  Future<User> getProfile() async {
+  Future<User?> getProfile() async {
     if (twitter == null) await _startSession();
     if (_profile != null) return _profile;
 
-    _profile = await getUser(twitter.username);
+    _profile = await getUser(twitter!.username);
     return _profile;
   }
 
-  static String generateSignature(
-      String method, String base, List<String> sortedItems) {
+  static String generateSignature(String method, String base, List<String> sortedItems) {
     String param = '';
 
     for (int i = 0; i < sortedItems.length; i++) {
@@ -59,99 +57,59 @@ class TwitterClient {
         param += '&${sortedItems[i]}';
     }
 
-    String sig =
-        '$method&${Uri.encodeComponent(base)}&${Uri.encodeComponent(param)}';
-    String key =
-        '${Uri.encodeComponent(_secretKey)}&${Uri.encodeComponent(twitter.secret)}';
+    String sig = '$method&${Uri.encodeComponent(base)}&${Uri.encodeComponent(param)}';
+    String key = '${Uri.encodeComponent(_secretKey!)}&${Uri.encodeComponent(twitter!.secret!)}';
     var digest = Hmac(sha1, utf8.encode(key)).convert(utf8.encode(sig));
     return base64.encode(digest.bytes);
   }
 
-  Future<http.Response> _twitterGet(
-      String base, List<List<String>> params) async {
+  Future<http.Response> _twitterGet(String base, List<List<String?>> params) async {
     if (twitter == null) await _startSession();
 
-    String oauthConsumer =
-        'oauth_consumer_key="${Uri.encodeComponent(_consumerKey)}"';
-    String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter.token)}"';
-    String oauthNonce =
-        'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
+    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey!)}"';
+    String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter!.token!)}"';
+    String oauthNonce = 'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
     String oauthVersion = 'oauth_version="${Uri.encodeComponent("1.0")}"';
-    String oauthTime =
-        'oauth_timestamp="${(DateTime.now().millisecondsSinceEpoch / 1000).toString()}"';
-    String oauthMethod =
-        'oauth_signature_method="${Uri.encodeComponent("HMAC-SHA1")}"';
-    var oauthList = [
-      oauthConsumer.replaceAll('"', ""),
-      oauthNonce.replaceAll('"', ""),
-      oauthMethod.replaceAll('"', ""),
-      oauthTime.replaceAll('"', ""),
-      oauthToken.replaceAll('"', ""),
-      oauthVersion.replaceAll('"', "")
-    ];
+    String oauthTime = 'oauth_timestamp="${(DateTime.now().millisecondsSinceEpoch / 1000).toString()}"';
+    String oauthMethod = 'oauth_signature_method="${Uri.encodeComponent("HMAC-SHA1")}"';
+    var oauthList = [oauthConsumer.replaceAll('"', ""), oauthNonce.replaceAll('"', ""), oauthMethod.replaceAll('"', ""), oauthTime.replaceAll('"', ""), oauthToken.replaceAll('"', ""), oauthVersion.replaceAll('"', "")];
+    var paramMap = Map<String, String?>();
+
+    for (List<String?> param in params) {
+      oauthList.add('${Uri.encodeComponent(param[0]!)}=${Uri.encodeComponent(param[1]!)}');
+      paramMap[param[0]!] = param[1];
+    }
+
+    oauthList.sort();
+    String oauthSig = 'oauth_signature="${Uri.encodeComponent(generateSignature("GET", "https://api.twitter.com$base", oauthList))}"';
+
+    return await http.get(new Uri.https("api.twitter.com", base, paramMap), headers: {"Authorization": 'Oauth $oauthConsumer, $oauthNonce, $oauthSig, $oauthMethod, $oauthTime, $oauthToken, $oauthVersion', "Content-Type": "application/json"}).timeout(Duration(seconds: 15));
+  }
+
+  Future<http.Response> _twitterPost(String base, List<List<String>> params) async {
+    if (twitter == null) await _startSession();
+
+    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey!)}"';
+    String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter!.token!)}"';
+    String oauthNonce = 'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
+    String oauthVersion = 'oauth_version="${Uri.encodeComponent("1.0")}"';
+    String oauthTime = 'oauth_timestamp="${(DateTime.now().millisecondsSinceEpoch / 1000).toString()}"';
+    String oauthMethod = 'oauth_signature_method="${Uri.encodeComponent("HMAC-SHA1")}"';
+    var oauthList = [oauthConsumer.replaceAll('"', ""), oauthNonce.replaceAll('"', ""), oauthMethod.replaceAll('"', ""), oauthTime.replaceAll('"', ""), oauthToken.replaceAll('"', ""), oauthVersion.replaceAll('"', "")];
     var paramMap = Map<String, String>();
 
     for (List<String> param in params) {
-      oauthList.add(
-          '${Uri.encodeComponent(param[0])}=${Uri.encodeComponent(param[1])}');
+      oauthList.add('${Uri.encodeComponent(param[0])}=${Uri.encodeComponent(param[1])}');
       paramMap[param[0]] = param[1];
     }
 
     oauthList.sort();
-    String oauthSig =
-        'oauth_signature="${Uri.encodeComponent(generateSignature("GET", "https://api.twitter.com$base", oauthList))}"';
+    String oauthSig = 'oauth_signature="${Uri.encodeComponent(generateSignature("POST", "https://api.twitter.com$base", oauthList))}"';
 
-    return await http
-        .get(new Uri.https("api.twitter.com", base, paramMap), headers: {
-      "Authorization":
-          'Oauth $oauthConsumer, $oauthNonce, $oauthSig, $oauthMethod, $oauthTime, $oauthToken, $oauthVersion',
-      "Content-Type": "application/json"
-    }).timeout(Duration(seconds: 15));
+    return await http.post(new Uri.https("api.twitter.com", base, paramMap), headers: {"Authorization": 'Oauth $oauthConsumer, $oauthNonce, $oauthSig, $oauthMethod, $oauthTime, $oauthToken, $oauthVersion', "Content-Type": "application/json"}).timeout(Duration(seconds: 15));
   }
 
-  Future<http.Response> _twitterPost(
-      String base, List<List<String>> params) async {
-    if (twitter == null) await _startSession();
-
-    String oauthConsumer =
-        'oauth_consumer_key="${Uri.encodeComponent(_consumerKey)}"';
-    String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter.token)}"';
-    String oauthNonce =
-        'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
-    String oauthVersion = 'oauth_version="${Uri.encodeComponent("1.0")}"';
-    String oauthTime =
-        'oauth_timestamp="${(DateTime.now().millisecondsSinceEpoch / 1000).toString()}"';
-    String oauthMethod =
-        'oauth_signature_method="${Uri.encodeComponent("HMAC-SHA1")}"';
-    var oauthList = [
-      oauthConsumer.replaceAll('"', ""),
-      oauthNonce.replaceAll('"', ""),
-      oauthMethod.replaceAll('"', ""),
-      oauthTime.replaceAll('"', ""),
-      oauthToken.replaceAll('"', ""),
-      oauthVersion.replaceAll('"', "")
-    ];
-    var paramMap = Map<String, String>();
-
-    for (List<String> param in params) {
-      oauthList.add(
-          '${Uri.encodeComponent(param[0])}=${Uri.encodeComponent(param[1])}');
-      paramMap[param[0]] = param[1];
-    }
-
-    oauthList.sort();
-    String oauthSig =
-        'oauth_signature="${Uri.encodeComponent(generateSignature("POST", "https://api.twitter.com$base", oauthList))}"';
-
-    return await http
-        .post(new Uri.https("api.twitter.com", base, paramMap), headers: {
-      "Authorization":
-          'Oauth $oauthConsumer, $oauthNonce, $oauthSig, $oauthMethod, $oauthTime, $oauthToken, $oauthVersion',
-      "Content-Type": "application/json"
-    }).timeout(Duration(seconds: 15));
-  }
-
-  Future<User> getUser(String tag) async {
+  Future<User?> getUser(String? tag) async {
     String base = '/1.1/users/show.json';
     final response = await _twitterGet(base, [
       ["screen_name", tag],
@@ -172,7 +130,7 @@ class TwitterClient {
     }
   }
 
-  Future<List<Tweet>> getTimeline() async {
+  Future<List<Tweet>?> getTimeline() async {
     String base = '/1.1/statuses/home_timeline.json';
     final response = await _twitterGet(base, [
       ["count", "200"],
@@ -181,7 +139,7 @@ class TwitterClient {
     ]);
 
     if (response.statusCode == 200) {
-      var timeline = List<Tweet>();
+      var timeline = <Tweet>[];
       json.decode(response.body).forEach((map) => timeline.add(new Tweet(map)));
       return timeline;
     } else {
@@ -191,7 +149,7 @@ class TwitterClient {
     }
   }
 
-  Future<List<Tweet>> getUserTimeline(String tag) async {
+  Future<List<Tweet>?> getUserTimeline(String tag) async {
     String base = '/1.1/statuses/user_timeline.json';
     final response = await _twitterGet(base, [
       ["screen_name", tag],
@@ -199,14 +157,14 @@ class TwitterClient {
     ]);
 
     if (response.statusCode == 200) {
-      List<Tweet> timeline = List();
+      List<Tweet> timeline = [];
       json.decode(response.body).forEach((data) => timeline.add(Tweet(data)));
       return timeline;
     } else
       return null;
   }
 
-  Future<List<Tweet>> getMentions() async {
+  Future<List<Tweet>?> getMentions() async {
     String base = '/1.1/statuses/mentions_timeline.json';
     final response = await _twitterGet(base, [
       ["count", "200"],
@@ -214,14 +172,14 @@ class TwitterClient {
     ]);
 
     if (response.statusCode == 200) {
-      List<Tweet> timeline = List();
+      List<Tweet> timeline = [];
       json.decode(response.body).forEach((data) => timeline.add(Tweet(data)));
       return timeline;
     } else
       return null;
   }
 
-  Future<Tweet> getTweet(int id) async {
+  Future<Tweet?> getTweet(int id) async {
     String base = "/1.1/statuses/show.json";
     final response = await _twitterGet(base, [
       ["id", id.toString()],
@@ -234,8 +192,7 @@ class TwitterClient {
       return null;
   }
 
-  Future<List<Tweet>> getReplies(String query, int sinceId,
-      [int maxId = -1]) async {
+  Future<List<Tweet>?> getReplies(String query, int sinceId, [int maxId = -1]) async {
     String base = '/1.1/search/tweets.json';
     final params = [
       ["q", query],
@@ -250,7 +207,7 @@ class TwitterClient {
     final response = await _twitterGet(base, params);
 
     if (response.statusCode == 200) {
-      List<Tweet> search = List();
+      List<Tweet> search = [];
       final statuses = json.decode(response.body);
       statuses["statuses"].forEach((data) => search.add(Tweet(data)));
       return search;
@@ -258,7 +215,7 @@ class TwitterClient {
       return null;
   }
 
-  Future<List<User>> searchUsers(String query, [count = 100]) async {
+  Future<List<User>?> searchUsers(String query, [count = 100]) async {
     String base = '/1.1/users/search.json';
     final response = await _twitterGet(base, [
       ["q", query],
@@ -267,7 +224,7 @@ class TwitterClient {
     ]);
 
     if (response.statusCode == 200) {
-      List<User> search = List();
+      List<User> search = [];
       json.decode(response.body).forEach((data) => search.add(User(data)));
       return search;
     } else {
@@ -276,7 +233,7 @@ class TwitterClient {
     }
   }
 
-  Future<List<Tweet>> searchTweets(String query, [count = 200]) async {
+  Future<List<Tweet>?> searchTweets(String query, [count = 200]) async {
     String base = '/1.1/search/tweets.json';
     final response = await _twitterGet(base, [
       ["q", query],
@@ -285,7 +242,7 @@ class TwitterClient {
     ]);
 
     if (response.statusCode == 200) {
-      List<Tweet> search = List();
+      List<Tweet> search = [];
       final statuses = json.decode(response.body);
       statuses["statuses"].forEach((data) => search.add(Tweet(data)));
       return search;
@@ -303,12 +260,12 @@ class TwitterClient {
     print(resp.body.toString());
   }
 
-  Future<Map> tweetPromo(String status) async {
+  Future<Map?> tweetPromo(String status) async {
     String base = '/1.1/statuses/update.json';
     var order = await _twitterPost(base, [
       ["status", status]
     ]);
-    Map parsed = json.decode(order.body);
+    Map? parsed = json.decode(order.body);
     return parsed;
   }
 

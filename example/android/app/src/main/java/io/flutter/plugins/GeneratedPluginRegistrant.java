@@ -2,6 +2,7 @@ package io.flutter.plugins;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import io.flutter.Log;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
@@ -13,8 +14,13 @@ import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
  */
 @Keep
 public final class GeneratedPluginRegistrant {
+  private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
     ShimPluginRegistry shimPluginRegistry = new ShimPluginRegistry(flutterEngine);
+    try {
       social.share.com.share_social_media_plugin.ShareSocialMediaPlugin.registerWith(shimPluginRegistry.registrarFor("social.share.com.share_social_media_plugin.ShareSocialMediaPlugin"));
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin share_social_media_plugin, social.share.com.share_social_media_plugin.ShareSocialMediaPlugin", e);
+    }
   }
 }
