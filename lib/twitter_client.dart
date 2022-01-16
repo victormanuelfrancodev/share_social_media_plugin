@@ -11,8 +11,8 @@ class TwitterClient {
   static final TwitterClient _singleton = new TwitterClient._internal();
   static TwitterSession? twitter;
   static User? _profile;
-  static String? _consumerKey;
-  static String? _secretKey;
+  static late String _consumerKey;
+  static late String _secretKey;
 
   factory TwitterClient() {
     _startSession();
@@ -34,7 +34,7 @@ class TwitterClient {
     return 0;
   }
 
-  static void setKeys(String? consumerKey, String? secretKey) {
+  static void setKeys(String consumerKey, String secretKey) {
     _consumerKey = consumerKey;
     _secretKey = secretKey;
   }
@@ -58,7 +58,7 @@ class TwitterClient {
     }
 
     String sig = '$method&${Uri.encodeComponent(base)}&${Uri.encodeComponent(param)}';
-    String key = '${Uri.encodeComponent(_secretKey!)}&${Uri.encodeComponent(twitter!.secret!)}';
+    String key = '${Uri.encodeComponent(_secretKey)}&${Uri.encodeComponent(twitter!.secret!)}';
     var digest = Hmac(sha1, utf8.encode(key)).convert(utf8.encode(sig));
     return base64.encode(digest.bytes);
   }
@@ -66,7 +66,7 @@ class TwitterClient {
   Future<http.Response> _twitterGet(String base, List<List<String?>> params) async {
     if (twitter == null) await _startSession();
 
-    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey!)}"';
+    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey)}"';
     String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter!.token!)}"';
     String oauthNonce = 'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
     String oauthVersion = 'oauth_version="${Uri.encodeComponent("1.0")}"';
@@ -89,7 +89,7 @@ class TwitterClient {
   Future<http.Response> _twitterPost(String base, List<List<String>> params) async {
     if (twitter == null) await _startSession();
 
-    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey!)}"';
+    String oauthConsumer = 'oauth_consumer_key="${Uri.encodeComponent(_consumerKey)}"';
     String oauthToken = 'oauth_token="${Uri.encodeComponent(twitter!.token!)}"';
     String oauthNonce = 'oauth_nonce="${Uri.encodeComponent(randomAlphaNumeric(42))}"';
     String oauthVersion = 'oauth_version="${Uri.encodeComponent("1.0")}"';

@@ -57,16 +57,16 @@ class Tweet {
 
     if (isRetweet) {
       try {
-        originalId = retweetStatus!["id"] ?? 0;
-        favoriteCount = retweetStatus["favorite_count"] ?? 0;
-        originalBody = retweetStatus["full_text"];
+        originalId = retweetStatus?["id"] ?? 0;
+        favoriteCount = retweetStatus?["favorite_count"] ?? 0;
+        originalBody = retweetStatus?["full_text"];
 
-        var originalUser = retweetStatus["user"];
+        var originalUser = retweetStatus?["user"];
         originalTag = originalUser["screen_name"];
         originalName = originalUser["name"];
         originalProfileUrl = originalUser["profile_image_url_https"];
 
-        var originalEntities = (retweetStatus["entities"]) as Map<String, dynamic>;
+        var originalEntities = (retweetStatus?["entities"]) as Map<String, dynamic>;
         var originalMedia = (originalEntities["media"]) as List<dynamic>?;
 
         List<String?> originalMedias = [];
