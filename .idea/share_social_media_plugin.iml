@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/flutter_plugin/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/flutter_plugin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/flutter_plugin/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/ios/Flutter/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/share_social_media_plugin/example/testiosshare/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/Flutter/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/testiosshare/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/twitterloginplugin/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Flutter Plugins" level="project" />
+  </component>
+</module>
